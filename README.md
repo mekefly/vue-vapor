@@ -20,11 +20,9 @@
 
 ## 3. 下载模板
 
-> git clone `thisPath` ./
+> git clone  <https://github.com/mekefly/templates.git> -b typescript-rollup-vitest ./
 
-或
-
-> git clone `thisPath` ./
+> git branch -m main
 
 thisPath代表当前仓库的连接，你可以直接在上面地址栏复制
 
