@@ -24,6 +24,7 @@
     "src/*", // 导入目录
     "global.d.ts",
     "test/*.ts",
-    "src/*.ts"
+    "packages/**/*.ts",
+    "packages/**/*.tsx"
   ]
 }

@@ -1,12 +1,12 @@
 {
-	"name": "template",
-	"shortName": "template",
+	"name": "vue-vapor",
+	"shortName": "vue-vapor",
 	"version": "0.0.0-bate.0",
   "main": "index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/template.esm.js",
-  "unpkg": "dist/template.iife.js",
-  "jsdelivr": "dist/template.iife.js",
+  "module": "dist/vue-vapor.esm.js",
+  "unpkg": "dist/vue-vapor.iife.js",
+  "jsdelivr": "dist/vue-vapor.iife.js",
   "author": {
     "email": "mekefly@qq.com",
     "name": "mekefly",
