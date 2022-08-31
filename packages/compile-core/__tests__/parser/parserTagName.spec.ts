@@ -1,4 +1,4 @@
-import { parserTagName } from "packages/compile-sfc/src/parser/parserTagName";
+import { parserTagName } from "packages/compile-core/src/parser/parserTagName";
 
 describe("parserTagName", () => {
   test("<div>", ({ meta: { name } }) => {

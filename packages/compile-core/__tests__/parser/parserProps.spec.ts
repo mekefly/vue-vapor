@@ -1,4 +1,4 @@
-import { parserProps } from "packages/compile-sfc/src/parser/parserProps";
+import { parserProps } from "../../src/parser/parserProps";
 
 describe("parserProps", () => {
   test.only("<div xxx >", ({ meta: { name } }) => {

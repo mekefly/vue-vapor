@@ -1,13 +1,13 @@
-import { HTMLAst } from "./HTMLAst";
+import { HTMLElementAst } from "../ast";
 
 export function genStack() {
-  const stack: HTMLAst[] = [];
-  let steakTop = new HTMLAst();
+  const stack: HTMLElementAst[] = [];
+  let steakTop = new HTMLElementAst();
   function push() {
     const grandpa = steakTop;
     stack.push(steakTop);
 
-    steakTop = new HTMLAst();
+    steakTop = new HTMLElementAst();
     grandpa.children.push(steakTop);
   }
   function pop() {

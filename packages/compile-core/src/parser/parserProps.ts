@@ -1,4 +1,4 @@
-import { ParserError } from "./index";
+import { ParserError } from "./error";
 
 export function parserProps(text: string, current: number) {
   let char = text[current];
@@ -74,7 +74,7 @@ export function parserProps(text: string, current: number) {
 
     throw new ParserError(current, "未知情况");
 
-    setCurrent(current + 1);
+    // setCurrent(current + 1);
   }
 
   return { char, current, props };

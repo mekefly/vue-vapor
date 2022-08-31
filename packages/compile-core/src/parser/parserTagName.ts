@@ -1,4 +1,4 @@
-import { ParserError } from "./index";
+import { ParserError } from "./error";
 
 export function parserTagName(text: string, current: number) {
   let char = text[current];
