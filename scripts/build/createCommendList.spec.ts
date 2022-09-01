@@ -69,7 +69,7 @@ describe("createCommendList", () => {
           "ROLLUP_BUILD_OUTPUT:R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\dist\\\\dist.cjs.prod.js",
           "ROLLUP_BUILD_NAME:Dist",
           "ROLLUP_BUILD_PACKAGE_PATH:R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor",
-          "ROLLUP_BUILD_DECLARATION:false",
+          "ROLLUP_BUILD_DECLARATION:true",
         ],
         [
           "ROLLUP_BUILD_INPUT:R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\src\\\\index.ts",
@@ -78,7 +78,7 @@ describe("createCommendList", () => {
           "ROLLUP_BUILD_OUTPUT:R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\dist\\\\dist.cjs.js",
           "ROLLUP_BUILD_NAME:Dist",
           "ROLLUP_BUILD_PACKAGE_PATH:R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor",
-          "ROLLUP_BUILD_DECLARATION:false",
+          "ROLLUP_BUILD_DECLARATION:true",
         ],
       ]
     `);
@@ -155,28 +155,28 @@ test("createPackagePathCommendList", () => {
   `);
 });
 test("createDeclarationCommendList1", () => {
-  expect(createDeclarationCommendList(true, false)).toMatchInlineSnapshot(`
+  expect(createDeclarationCommendList(true, "", false)).toMatchInlineSnapshot(`
     [
       [
         "ROLLUP_BUILD_DECLARATION:true",
       ],
     ]
   `);
-  expect(createDeclarationCommendList(false, false)).toMatchInlineSnapshot(`
+  expect(createDeclarationCommendList(false, "", false)).toMatchInlineSnapshot(`
     [
       [
         "ROLLUP_BUILD_DECLARATION:false",
       ],
     ]
   `);
-  expect(createDeclarationCommendList(true, true)).toMatchInlineSnapshot(`
+  expect(createDeclarationCommendList(true, "", true)).toMatchInlineSnapshot(`
     [
       [
         "ROLLUP_BUILD_DECLARATION:false",
       ],
     ]
   `);
-  expect(createDeclarationCommendList(false, true)).toMatchInlineSnapshot(`
+  expect(createDeclarationCommendList(false, "", true)).toMatchInlineSnapshot(`
     [
       [
         "ROLLUP_BUILD_DECLARATION:false",

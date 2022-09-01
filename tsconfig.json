@@ -17,15 +17,18 @@
     // "declaration": true, // 生成定义文件
     // "declarationMap": true, // 生成定义sourceMap
     // "declarationDir": "./lib/types/", // 定义文件输出目录
-    "lib": ["ES2021", "dom"], // 导入库类型定义
-    "types": ["vitest/globals"] // 导入指定类型包
+    "lib": ["ESNext", "dom"], // 导入库类型定义
+    "types": ["vitest/globals"], // 导入指定类型包
+    "paths": {
+      "@vue-vapor/compat": ["packages/vue-compat/src"],
+      "@vue-vapor/*": ["packages/*/src"],
+      "vue-vapor": ["packages/vue/src"]
+    }
   },
   "include": [
-    "**/*.ts",
-    "src/*", // 导入目录
-    "global.d.ts",
-    "test/*.ts",
-    "packages/**/*.ts",
-    "packages/**/*.tsx"
+    "packages/global.d.ts",
+    "packages/*/src",
+    "packages/*/__tests__",
+    "**/*.spec.ts"
   ]
 }

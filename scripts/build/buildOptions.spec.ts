@@ -62,14 +62,48 @@ test("createOptions", () => {
       "output": "dist",
       "packages": [
         "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\packages\\\\compile-core",
+        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\packages\\\\compile-sfc",
         "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor",
       ],
       "prod": [
-        "true",
         "false",
+        "true",
       ],
       "workSpace": [
         "packages",
+      ],
+    }
+  `);
+});
+test("createOptions", () => {
+  const configOptions = createOptions({
+    packages: ",",
+    workSpace: "scripts/build/testCase",
+  });
+  expect(configOptions).toMatchInlineSnapshot(`
+    {
+      "declaration": true,
+      "format": [
+        "cjs",
+        "esm",
+        "iife",
+      ],
+      "include": [],
+      "includePackages": [],
+      "inputPath": [
+        "./src/index.ts",
+      ],
+      "output": "dist",
+      "packages": [
+        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\scripts\\\\build\\\\testCase\\\\compile-sfc",
+        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\scripts\\\\build\\\\testCase\\\\compile-sfc copy",
+      ],
+      "prod": [
+        "false",
+        "true",
+      ],
+      "workSpace": [
+        "scripts/build/testCase",
       ],
     }
   `);

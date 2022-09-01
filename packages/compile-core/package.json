@@ -1,5 +1,5 @@
 {
-  "name": "@vue-vapor/compile-sfc",
+  "name": "@vue-vapor/compile-core",
   "version": "0.0.0-bate.0",
   "description": "",
   "types": "dist/types/index.d.ts",

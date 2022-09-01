@@ -1,13 +1,21 @@
 import { resolve } from "path";
+import pc from "picocolors";
 import { exec } from "shelljs";
+import { Commend } from "./types";
 
 export type HandelOptions = typeof DEFAULT_HANDEL_OPTIONS;
 const BUILD_CONFIG_PATH = resolve("scripts/build/buildConfig/index.js");
 
 const clash = new Map();
 export const DEFAULT_HANDEL_OPTIONS = {
-  $(environment: string[], index: number) {
-    console.log(`\n当前是第 ${index + 1} 条命令，准备执行`);
+  $(environment: Commend, index: number, CommendList: Commend[]) {
+    console.log(
+      pc.bgBlue(
+        pc.white(
+          `\n当前是第 ${index + 1} 条共 ${CommendList.length} 条，准备执行`
+        )
+      )
+    );
     const commendString =
       DEFAULT_HANDEL_OPTIONS.genBuildStringCommend(environment);
 
@@ -40,10 +48,29 @@ export const DEFAULT_HANDEL_OPTIONS = {
     commendList.forEach((commend, index) => {
       const commandString = this.genBuildStringCommend(commend);
 
-      console.log(`\n当前是第 ${index + 1} 条命令，准备预览`);
+      console.log(
+        pc.bgGreen(
+          pc.white(
+            `\n当前是第 ${index + 1} 条共 ${commendList.length} 条，准备预览`
+          )
+        )
+      );
 
-      console.log(`\nsettings:\n${commend.join("\n").replaceAll(":", ": ")}`);
-      console.log(`\ncommend:\n${commandString}\n`);
+      console.log(
+        pc.green(
+          `\n${pc.bold(pc.red("settings:"))}\n${commend
+            .map((option) => {
+              const fragments = option.split(":");
+              return `${pc.bold(pc.red(`${fragments[0]}:`))} ${fragments
+                .slice(1)
+                .join(":")}`;
+            })
+            .join("\n")}`
+        )
+      );
+      console.log(
+        pc.blue(`\n${pc.bold(pc.red("commend:"))}\n${commandString}\n`)
+      );
     });
   },
 };

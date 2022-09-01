@@ -24,7 +24,7 @@ export function createCommendList(
     createOutputCommendList(packagePath, output, format, shortName, prod),
     createNameCommendList(genExportName(shortName)),
     createPackagePathCommendList(packagePath),
-    createDeclarationCommendList(declaration)
+    createDeclarationCommendList(declaration, packagePath)
   );
   return commendList;
 }
@@ -32,12 +32,15 @@ export function createPackagePathCommendList(packagePath: string) {
   return [[createEnvString("PACKAGE_PATH", packagePath)]];
 }
 
-let declarationCreated = false;
+const declarationCreatedSet = new Set();
 export function createDeclarationCommendList(
   declaration: boolean,
-  _declarationCreated: boolean = declarationCreated
+  packagePath: string,
+  _declarationCreated: boolean = declarationCreatedSet.has(packagePath)
 ) {
-  declarationCreated = declaration = declaration && !_declarationCreated;
+  declarationCreatedSet.add(
+    (declaration = declaration && !_declarationCreated)
+  );
   const declarationStr = declaration ? "true" : "false";
   return [[createEnvString("DECLARATION", declarationStr)]];
 }

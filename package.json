@@ -43,6 +43,7 @@
     "cac": "^6.7.14",
     "commander": "^9.4.0",
     "execa": "^6.1.0",
+    "picocolors": "^1.0.0",
     "rollup": "^2.77.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.32.1",

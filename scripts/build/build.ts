@@ -2,7 +2,7 @@ import { DEFAULT_HANDEL_OPTIONS, HandelOptions } from "./buildHandel";
 import { BuildOptions } from "./buildOptions";
 import { createCommendList } from "./createCommendList";
 import { PackageJson, readPackageJson } from "./json";
-import { CliOptions } from "./types";
+import { CliOptions, Commend } from "./types";
 
 import { createOptions } from "./buildOptions";
 
@@ -18,13 +18,18 @@ export async function buildPackages(
   configOptions: BuildOptions,
   handelOptions: HandelOptions = DEFAULT_HANDEL_OPTIONS
 ) {
+  const allCommendList: Commend[] = [];
+
   for (const packagePath of configOptions.packages) {
-    buildPackage(handelOptions, packagePath, configOptions);
+    const commendList = createPackageCommendList(packagePath, configOptions);
+    allCommendList.push(...commendList);
   }
+
+  //执行rollup命令
+  handelOptions.runs(allCommendList);
 }
 
-function buildPackage(
-  handelOptions: HandelOptions,
+function createPackageCommendList(
   packagePath: string,
   configOptions: BuildOptions
 ) {
@@ -32,7 +37,7 @@ function buildPackage(
   const packageJson = readPackageJson(packagePath);
   //检查是否在packageJSON中是否强制禁止build
   if (disableBuild(packageJson)) {
-    return;
+    return [];
   }
 
   //创建命令列表
@@ -42,9 +47,7 @@ function buildPackage(
     packagePath
   );
 
-  //执行rollup命令
-
-  handelOptions.runs(commendList);
+  return commendList;
 }
 
 function disableBuild(packageJson: PackageJson) {

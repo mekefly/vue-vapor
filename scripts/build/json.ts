@@ -5,7 +5,13 @@ export function readPackageJson(packagePath: string): PackageJson {
   return readJson(resolve(packagePath, "./package.json"));
 }
 export function readJson(path: string): any {
-  return JSON.parse(readFileSync(path, "utf-8"));
+  try {
+    console.log(path);
+
+    return JSON.parse(readFileSync(path, "utf-8"));
+  } catch (error) {
+    return {};
+  }
 }
 
 export type PackageJson = {

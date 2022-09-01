@@ -54,14 +54,17 @@ export function parseCliOptions(
   Object.keys(buildOptions).forEach((key) => {
     const cliValue = cliOptions[key];
 
-    if (!cliValue) {
+    if (cliValue === undefined) {
       return;
     }
     const buildValue = (buildOptions as any)[key];
 
     if (Array.isArray(buildValue)) {
-      options[key] = (cliValue as string)?.split(splitter);
-      return;
+      if (cliValue === ",") {
+        options[key] = [];
+        return;
+      }
+      options[key] = (cliValue as string)?.split(splitter) ?? [];
     } else if (typeof cliValue === "boolean") {
       options[key] = cliValue ? "true" : "false";
     } else {
