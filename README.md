@@ -1,6 +1,20 @@
 # Templates
 
-各种类型的template将通过分支的方式添加进来
+各种类型的 template 将通过分支的方式添加进来
+
+## task
+
+- [x] workspace build
+  - [x] scripts
+  - [x] rollup.config.js
+- [ ] compile-core
+  - [ ] 框架
+    - [x] parser ast
+    - [x] traverser ast 遍历器
+- [ ] compile-sfc
+- [ ] compile-vapor
+- [ ] runtime-resolve
+- [ ] runtime-core
 
 ## Includes
 
@@ -20,11 +34,11 @@
 
 ## 3. 下载模板
 
-> git clone  <https://github.com/mekefly/templates.git> -b typescript-rollup-vitest ./
+> git clone <https://github.com/mekefly/templates.git> -b typescript-rollup-vitest ./
 
 > git branch -m main
 
-thisPath代表当前仓库的连接，你可以直接在上面地址栏复制
+thisPath 代表当前仓库的连接，你可以直接在上面地址栏复制
 
 ## 4. 安装依赖
 
