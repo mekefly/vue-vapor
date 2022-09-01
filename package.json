@@ -1,12 +1,15 @@
 {
-	"name": "vue-vapor",
-	"shortName": "vue-vapor",
-	"version": "0.0.0-bate.0",
+  "name": "vue-vapor",
+  "shortName": "vue-vapor",
+  "version": "0.0.0-bate.0",
   "main": "index.js",
   "types": "dist/index.d.ts",
   "module": "dist/vue-vapor.esm.js",
   "unpkg": "dist/vue-vapor.iife.js",
   "jsdelivr": "dist/vue-vapor.iife.js",
+  "buildOptions": {
+    "disableBuild": true
+  },
   "author": {
     "email": "mekefly@qq.com",
     "name": "mekefly",
@@ -15,33 +18,37 @@
   "publishConfig": {
     "access": "public"
   },
-	"files": [
+  "files": [
     "dist"
   ],
   "license": "MIT",
-	"scripts": {
-		"build": "pnpm build:all && pnpm link .",
-		"build:all": "pnpm build:dev && pnpm build:prod",
-		"build:prod": "pnpm rollup -c ./rollup.config.js --environment NODE_ENV:production",
-		"build:dev": "pnpm rollup -c ./rollup.config.js --environment NODE_ENV:development",
+  "scripts": {
+    "build": "node scripts/build",
+    "build:all": "pnpm build:dev && pnpm build:prod",
+    "build:prod": "node scripts/build --prod 'true'",
+    "build:dev": "node scripts/build --prod 'false'",
     "pub": "npm publish",
-		"test": "vitest"
-	},
-	"dependencies": {
-		"@babel/core": "^7.18.10"
-	},
-	"devDependencies": {
-		"@rollup/plugin-babel": "^5.3.1",
-		"@wormery/utils": "^1.1.3",
-		"@rollup/plugin-commonjs": "^22.0.2",
-		"@rollup/plugin-node-resolve": "^13.3.0",
-		"@rollup/plugin-replace": "^4.0.0",
-		"rollup": "^2.77.2",
-		"rollup-plugin-terser": "^7.0.2",
-		"rollup-plugin-typescript2": "^0.32.1",
-		"typescript": "^4.7.4",
-
-		"vitest": "^0.22.0",
-		"vite": "^3.0.8"
-	}
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@babel/core": "^7.18.10"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@types/shelljs": "^0.8.11",
+    "@wormery/utils": "^1.1.3",
+    "cac": "^6.7.14",
+    "commander": "^9.4.0",
+    "execa": "^6.1.0",
+    "rollup": "^2.77.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.32.1",
+    "shelljs": "^0.8.5",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.8",
+    "vitest": "^0.22.0"
+  }
 }
