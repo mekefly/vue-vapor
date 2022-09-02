@@ -1,7 +1,7 @@
-import { Node, NodeType } from "../ast";
+import { AstNode, NodeType } from "../ast";
 import { Callbacks } from "./types";
 
-export function traverser(ast: Node, callbacks: Callbacks<true>) {
+export function traverser(ast: AstNode, callbacks: Callbacks<true>) {
   const cs = standardization(callbacks);
 
   traverserNode(ast, cs);
@@ -17,7 +17,7 @@ function standardization(callbacks: Callbacks<true>): Callbacks {
   return callbacks as any;
 }
 
-function traverserArray(nodes: Node[] | null, callbacks: Callbacks) {
+function traverserArray(nodes: AstNode[] | null, callbacks: Callbacks) {
   if (nodes === null) {
     return;
   }
@@ -25,7 +25,7 @@ function traverserArray(nodes: Node[] | null, callbacks: Callbacks) {
     traverserNode(node, callbacks);
   }
 }
-function traverserNode(ast: Node | null, callbacks: Callbacks) {
+function traverserNode(ast: AstNode | null, callbacks: Callbacks) {
   const {
     HTMLAst,
     HTMLElementAst,

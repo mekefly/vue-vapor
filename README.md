@@ -12,7 +12,12 @@
     - [x] parser ast
     - [x] traverser ast 遍历器
 - [ ] compile-sfc
+  - [ ] vapor
+  - [ ] setup
+  - [ ] default
 - [ ] compile-vapor
+  - [x] dom 解析，生成代码
+  - [ ] 组件解析
 - [ ] runtime-resolve
 - [ ] runtime-core
 

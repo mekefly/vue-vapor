@@ -13,26 +13,26 @@ export type NodeTypeMap = {
   RootAst: RootAst;
 };
 export function typeFor<T extends NodeType>(
-  ast: Node,
+  ast: AstNode,
   nodeType: T
 ): ast is NodeTypeMap[T] {
   return ast.type === nodeType;
 }
-export class RootAst implements Node {
+export class RootAst implements AstNode {
   type = NodeType.RootAst;
-  constructor(private children: Node[]) {}
-  getChildren(): Node[] {
+  constructor(private children: AstNode[]) {}
+  getChildren(): AstNode[] {
     return this.children;
   }
 }
-export interface Node {
+export interface AstNode {
   type: NodeType;
-  getChildren(): Node[] | null;
+  getChildren(): AstNode[] | null;
 }
-export class HTMLAst implements Node {
+export class HTMLAst implements AstNode {
   type = NodeType.HTMLAst;
   constructor() {}
-  getChildren(): Node[] | null {
+  getChildren(): AstNode[] | null {
     return null;
   }
 }
@@ -54,7 +54,7 @@ export class HTMLElementAst extends HTMLAst {
     this.children = children;
   }
 
-  getChildren(): Node[] {
+  getChildren(): AstNode[] {
     return this.children;
   }
 }

@@ -7,8 +7,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {},
-  "main": "dist/vue-vapor-compile-sfc.cjs.prod.js",
-  "module": "dist/vue-vapor-compile-sfc.esm.prod.js",
-  "unpkg": "dist/vue-vapor-compile-sfc.iife.prod.js",
-  "jsdelivr": "dist/vue-vapor-compile-sfc.iife.prod.js"
+  "module": "dist/vue-vapor-compile-core.esm.js",
+  "unpkg": "dist/vue-vapor-compile-core.iife.js",
+  "jsdelivr": "dist/vue-vapor-compile-core.iife.js",
+  "main": "dist/vue-vapor-compile-core.cjs.js"
 }

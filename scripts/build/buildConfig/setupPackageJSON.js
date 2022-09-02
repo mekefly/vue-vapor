@@ -11,7 +11,7 @@ export function setupPackageJSON({
   packagePath,
   packageJson,
 }) {
-  if (!isProd) {
+  if (isProd) {
     return;
   }
   const keys = packageJsonKeyMap[format];

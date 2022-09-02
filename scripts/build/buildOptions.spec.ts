@@ -1,5 +1,6 @@
 import { createOptions, includeDir, parseCliOptions } from "./buildOptions";
 
+const workSpace = "scripts/build/testCase";
 test("includeDir", () => {
   expect(includeDir(["xxx/yyy/zzz", "yyy"], [])).toMatchInlineSnapshot(`
     [
@@ -46,7 +47,7 @@ test("parseCliOptions1", () => {
   `);
 });
 test("createOptions", () => {
-  expect(createOptions({})).toMatchInlineSnapshot(`
+  expect(createOptions({ workSpace })).toMatchInlineSnapshot(`
     {
       "declaration": true,
       "format": [
@@ -61,8 +62,8 @@ test("createOptions", () => {
       ],
       "output": "dist",
       "packages": [
-        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\packages\\\\compile-core",
-        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\packages\\\\compile-sfc",
+        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\scripts\\\\build\\\\testCase\\\\compile-sfc",
+        "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor\\\\scripts\\\\build\\\\testCase\\\\compile-sfc copy",
         "R:\\\\Users\\\\meke\\\\Documents\\\\study\\\\mini\\\\vue-vapor",
       ],
       "prod": [
@@ -70,7 +71,7 @@ test("createOptions", () => {
         "true",
       ],
       "workSpace": [
-        "packages",
+        "scripts/build/testCase",
       ],
     }
   `);
