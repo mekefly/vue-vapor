@@ -120,13 +120,10 @@ describe("index", () => {
           "import { ref } from \\"@vue/reactivity\\"",
         ],
         "script": "const count = ref(0);
+      function handle() { 
       count.value++;
       console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
+      };
       ",
         "setup": true,
         "style": "",
@@ -152,6 +149,19 @@ describe("index", () => {
                         ":value": "count",
                       },
                       "tag": "input",
+                      "type": "HTMLElementAst",
+                    },
+                    HTMLElementAst {
+                      "children": [
+                        HTMLTextAst {
+                          "text": "ClickOn",
+                          "type": "HTMLTextAst",
+                        },
+                      ],
+                      "props": {
+                        "@click": "handle",
+                      },
+                      "tag": "button",
                       "type": "HTMLElementAst",
                     },
                   ],
@@ -184,7 +194,7 @@ describe("index", () => {
     `);
 
     const list = genAstList(sfc.template);
-    expect(list.length).toMatchInlineSnapshot("8");
+    expect(list.length).toMatchInlineSnapshot('10');
     expect(list.map((item) => item.type + " => " + Object.values(item)))
       .toMatchInlineSnapshot(`
         [
@@ -196,10 +206,12 @@ describe("index", () => {
         ",
           "HTMLTextAst => HTMLTextAst,
             ",
-          "HTMLElementAst => HTMLElementAst,div,[object Object],[object Object]",
+          "HTMLElementAst => HTMLElementAst,div,[object Object],[object Object],[object Object]",
           "HTMLTextAst => HTMLTextAst,
           ",
           "HTMLElementAst => HTMLElementAst,input,[object Object],",
+          "HTMLElementAst => HTMLElementAst,button,[object Object],[object Object]",
+          "HTMLTextAst => HTMLTextAst,ClickOn",
         ]
       `);
   });
@@ -212,13 +224,10 @@ describe("index", () => {
           "import { ref } from \\"@vue/reactivity\\"",
         ],
         "script": "const count = ref(0);
+      function handle() { 
       count.value++;
       console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
-      console.log(count.value);
+      };
       ",
         "setup": true,
         "style": "",
@@ -244,6 +253,19 @@ describe("index", () => {
                         ":value": "count",
                       },
                       "tag": "input",
+                      "type": "HTMLElementAst",
+                    },
+                    HTMLElementAst {
+                      "children": [
+                        HTMLTextAst {
+                          "text": "ClickOn",
+                          "type": "HTMLTextAst",
+                        },
+                      ],
+                      "props": {
+                        "@click": "handle",
+                      },
+                      "tag": "button",
                       "type": "HTMLElementAst",
                     },
                   ],
@@ -282,24 +304,24 @@ describe("index", () => {
 
       export default function (props,context){
           const count = ref(0);
+        function handle() { 
         count.value++;
         console.log(count.value);
-        console.log(count.value);
-        console.log(count.value);
-        console.log(count.value);
-        console.log(count.value);
-        console.log(count.value);
+        };
         
 
           
-          var node = {$0:context.parentEl,$1: document.createTextNode(\\"\\\\n  \\"),$2: document.createElement(\\"div\\"),$3: document.createTextNode(\\"\\\\n\\"),$4: document.createTextNode(\\"\\\\n    \\"),$5: document.createElement(\\"div\\"),$6: document.createTextNode(\\"\\\\n  \\"),$7: document.createElement(\\"input\\")};
+          var node = {$0:context.parentEl,$1: document.createTextNode(\\"\\\\n  \\"),$2: document.createElement(\\"div\\"),$3: document.createTextNode(\\"\\\\n\\"),$4: document.createTextNode(\\"\\\\n    \\"),$5: document.createElement(\\"div\\"),$6: document.createTextNode(\\"\\\\n  \\"),$7: document.createElement(\\"input\\"),$8: document.createElement(\\"button\\"),$9: document.createTextNode(\\"ClickOn\\")};
           node.$0.append(node.$1,node.$2,node.$3);
         
         node.$2.append(node.$4,node.$5,node.$6);
         
         
-        node.$5.append(node.$7);
-          effect(()=>{effect(()=>{node.$7.setAttribute(\\":value\\",unref(count));});});
+        node.$5.append(node.$7,node.$8);
+        
+        
+        node.$8.append(node.$9);
+          effect(()=>{effect(()=>{node.$7.setAttribute(\\"value\\",unref(count));});effect(()=>{node.$8.addEventListener(\\"click\\",handle);});});
       }"
     `);
   });

@@ -2,21 +2,16 @@
 import { ref } from "@vue/reactivity";
 
 const count = ref(0);
-count.value++;
 
-console.log(count.value);
-console.log(count.value);
-console.log(count.value);
-
-console.log(count.value);
-
-console.log(count.value);
-console.log(count.value);
+function handle() {
+  count.value++;
+  console.log(count.value);
+}
 </script>
 
 <template>
   <div>
-    <div><input :value="count" /></div>
+    <div><input :value="count" /><button @click="handle">ClickOn</button></div>
   </div>
 </template>
 

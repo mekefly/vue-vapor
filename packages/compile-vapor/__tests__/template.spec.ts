@@ -44,7 +44,7 @@ describe("template", () => {
   });
   test("setAttributeTemplate", () => {
     expect(setAttributeTemplate(0, "class", "c-xx")).toMatchInlineSnapshot(
-      '"node.$0.setAttribute(\\"class\\",\\"c-xx\\");"'
+      '"node.$0.setAttribute(\\"class\\",\\"c-xx\\"});"'
     );
   });
   let appendSnippet = "";
@@ -91,7 +91,7 @@ describe("template", () => {
       "
         var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
         node.$0.append(node.$1);
-        effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\");});"
+        effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\"});});"
     `);
   });
   test("setupSnippetTemplate", () => {
@@ -116,7 +116,7 @@ describe("template", () => {
           
           var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
           node.$0.append(node.$1);
-          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\");});
+          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\"});});
       }"
     `);
   });
@@ -141,7 +141,7 @@ describe("template", () => {
           
           var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
           node.$0.append(node.$1);
-          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\");});
+          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\"});});
       }"
     `);
   });

@@ -13,7 +13,7 @@ export function parserProps(text: string, current: number) {
       continue;
     }
     // 属性名
-    const PROPS_KEY = /[a-z,A-Z,\-,\:,\$]/;
+    const PROPS_KEY = /[a-z,A-Z,\-,\:,\$,@]/;
     if (PROPS_KEY.test(char)) {
       let key = "";
       while (current < text.length && PROPS_KEY.test(char)) {

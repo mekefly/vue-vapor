@@ -65,9 +65,17 @@ export function setAttributeTemplate(id: number, key: string, value: string) {
   const dyn = ["@", ":", "v-"].some((item) => key.startsWith(item));
   addImport("@vue/reactivity", "unref");
 
-  return `${getElVarTemplate(id)}.setAttribute("${key}",${
-    dyn ? `unref(${value})` : `"${value}"`
-  });`;
+  if (key.startsWith(":")) {
+    return `${getElVarTemplate(id)}.setAttribute("${key.slice(
+      1
+    )}",${`unref(${value})`});`;
+  } else if (key.startsWith("@")) {
+    return `${getElVarTemplate(id)}.addEventListener("${key.slice(
+      1
+    )}",${value});`;
+  } else {
+    return `${getElVarTemplate(id)}.setAttribute("${key}","${value}"});`;
+  }
 }
 
 export function getElVarTemplate(id: number) {
