@@ -39,8 +39,13 @@ cli.help();
 
 const parsed = cli.parse();
 
-if (!parsed.options["help"]) {
-  console.log(`您可以输入 ${pc.red("`--help(h)`")} 来查看更多选项 \n`);
-  build(parsed.options);
-  console.log(`您可以输入 ${pc.red("`--help(h)`")} 来查看更多选项 \n`);
+async function run() {
+  if (!parsed.options["help"]) {
+    console.time("build");
+    console.log(`您可以输入 ${pc.red("`--help(h)`")} 来查看更多选项 \n`);
+    await build(parsed.options);
+    console.log(`您可以输入 ${pc.red("`--help(h)`")} 来查看更多选项 \n`);
+    console.timeEnd("build");
+  }
 }
+run();

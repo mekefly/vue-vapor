@@ -46,6 +46,7 @@ export function createPlugin({
           noUnusedLocals: false, //未使用的报错
         },
         include: [packageRelativePathResolve("./src")],
+        exclude: ["node_modules"],
       },
     })
   );

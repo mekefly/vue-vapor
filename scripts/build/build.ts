@@ -8,10 +8,10 @@ import { createOptions } from "./buildOptions";
 
 export const splitter = ",";
 
-export function build(cliOptions: CliOptions) {
+export async function build(cliOptions: CliOptions) {
   const configOptions = createOptions(cliOptions);
 
-  buildPackages(configOptions);
+  await buildPackages(configOptions);
 }
 
 export async function buildPackages(
@@ -26,7 +26,7 @@ export async function buildPackages(
   }
 
   //执行rollup命令
-  handelOptions.runs(allCommendList);
+  await handelOptions.runs(allCommendList);
 }
 
 function createPackageCommendList(
