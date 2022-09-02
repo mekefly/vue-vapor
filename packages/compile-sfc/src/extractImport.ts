@@ -5,15 +5,12 @@ let importSnippets: string[] = [];
 
 export function extractImport(script: string) {
   script = splitMatch(script, ";", true, (s) => {
-    if (s.trim().startsWith("import")) {
-      importSnippets.push(s + ";");
-      return "";
-    }
-
-    return splitMatch(s, "\n", false, (s) =>
-      splitMatch(s, " ", true, callback)
-    );
-  });
+    return splitMatch(s, "\n", true, (s) => splitMatch(s, " ", true, callback));
+  })
+    .replaceAll("\n;", ";")
+    .replaceAll(" ;", ";")
+    .replaceAll(";", ";\n")
+    .replaceAll(";\n\n", ";\n");
 
   init();
   let _importSnippets: string[];
@@ -32,7 +29,7 @@ function splitMatch(
   if (isFilter) {
     v = v.filter(Boolean);
   }
-  return v.join(splitter);
+  return v.map((s) => s + splitter).join("");
 }
 
 const callback = (s: string) => {

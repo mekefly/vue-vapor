@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 对代码进行编译为浏览器可识别的代码，这里使用了jsx -->
+    <!-- https://www.babeljs.cn -->
+    <script src="https://unpkg.com/@babel/standalone@7.17.11/babel.min.js"></script>
+    <!-- vue框架，著名的前端框架 -->
+    <!-- https://v3.cn.vuejs.org/ -->
+    <script src="https://unpkg.com/vue@3.2.33/dist/vue.global.js"></script>
+    <!-- css in ts的一个解决方案 -->
+    <!-- https://wormery.github.io/wtsc/ -->
+    <script src="https://unpkg.com/@wormery/wtsc@2.0.0-bate.38/dist/wtsc.iife.js"></script>
+    <!-- <script src="https://unpkg.com/@wormery/wtsc@2.0.0-bate.38/dist/wtsc.iife.prod.js"></script> -->
+
+    <div id="app"></div>
+
+    <script type="text/babel">
+      const { createApp, h, ref, computed, defineComponent } = Vue;
+      // babel会将标签编译为React.createElement,所以我们打了个补丁
+      const React = { createElement: h };
+      const { defWTSC, rgb, px, PE, vh, vw, ms, effect } = wtsc;
+      function Com() {
+        const count = ref(0);
+        count.value++;
+        console.log(count.value);
+
+        var node = {
+          $0: document.createTextNode("\n  "),
+          $1: document.createElement("div"),
+          $2: document.createTextNode("\n"),
+        };
+        console.log(node);
+        node.$0.append(node.$0, node.$1, node.$2);
+        effect(() => {
+          effect(() => {});
+        });
+        return node.$0;
+      }
+      document.querySelector("#app").append(Com());
+    </script>
+  </body>
+</html>

@@ -44,7 +44,7 @@ describe("template", () => {
   });
   test("setAttributeTemplate", () => {
     expect(setAttributeTemplate(0, "class", "c-xx")).toMatchInlineSnapshot(
-      '"sa(node.$0,\\"class\\",\\"c-xx\\");"'
+      '"node.$0.setAttribute(\\"class\\",\\"c-xx\\");"'
     );
   });
   let appendSnippet = "";
@@ -91,7 +91,7 @@ describe("template", () => {
       "
         var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
         node.$0.append(node.$1);
-        effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\");});"
+        effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\");});"
     `);
   });
   test("setupSnippetTemplate", () => {
@@ -109,14 +109,14 @@ describe("template", () => {
         )
       )
     ).toMatchInlineSnapshot(`
-      "export default function (){
-        const count = ref(0);
-
-
+      "export default function (props,context){
+          const count = ref(0);
         
-        var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
-        node.$0.append(node.$1);
-        effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\");});
+
+          
+          var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
+          node.$0.append(node.$1);
+          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\");});
       }"
     `);
   });
@@ -131,17 +131,17 @@ describe("template", () => {
     expect(
       moduleSnippetTemplate("import {ref} from '@vue/reactivity'", setupSnippet)
     ).toMatchInlineSnapshot(`
-      "import { effect } from \\"@vue/reactivity\\";
+      "import { effect,unref } from \\"@vue/reactivity\\";
       import {ref} from '@vue/reactivity'
 
-      export default function (){
-        const count = ref(0);
-
-
+      export default function (props,context){
+          const count = ref(0);
         
-        var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
-        node.$0.append(node.$1);
-        effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\");});
+
+          
+          var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
+          node.$0.append(node.$1);
+          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\");});
       }"
     `);
   });

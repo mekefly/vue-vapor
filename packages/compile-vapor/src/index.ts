@@ -24,7 +24,11 @@ export function codegen(sfc: SFC) {
     throw new Error("这里无法处理，你可以使用 `@vue-vapor/compile-core` 试试");
 
   const snippetsOptions = createSnippetsByAst(sfc.template);
-  return marginSFC(sfc, snippetsOptions as any);
+  const code = marginSFC(sfc, snippetsOptions as any);
+  return format(code);
+}
+function format(code: string) {
+  return code.replaceAll(/\s{0,}$/g, "");
 }
 
 function marginSFC(
@@ -57,6 +61,7 @@ function createSnippetsByAst(ast: HTMLElementAst): RenderSnippetOption {
 
 function genAstNodeList(astList: AstNode[]) {
   const { HTMLElementAst, HTMLTemplateStatementAst, HTMLTextAst } = NodeType;
+
   return astList.map((ast, id) => {
     if (typeFor(ast, HTMLElementAst)) {
       return createCodeSnippetByEl(ast, id);
@@ -69,7 +74,11 @@ function genAstNodeList(astList: AstNode[]) {
   });
 }
 
-function createSnippets(codeSnippets: CodeSnippet[]) {
+function createSnippets(codeSnippets: CodeSnippet[]): {
+  createSnippet: string;
+  appendSnippet: string;
+  attributeSnippet: string;
+} {
   // 创建语句
   const createSnippet = createSnippetTemplate(codeSnippets);
 
@@ -83,7 +92,7 @@ function createSnippets(codeSnippets: CodeSnippet[]) {
   return { createSnippet, appendSnippet, attributeSnippet };
 }
 
-function genAppendSnippet(codeSnippets: CodeSnippet[]) {
+function genAppendSnippet(codeSnippets: CodeSnippet[]): string {
   const appendMap: number[][] = [];
   codeSnippets.forEach((codeSnippet) => {
     const appends = (appendMap[codeSnippet.parentId] =
@@ -97,25 +106,39 @@ function genAppendSnippet(codeSnippets: CodeSnippet[]) {
   return appendSnippet;
 }
 
-function genAstList(ast: HTMLElementAst) {
-  const bfsAstList: AstNode[] = [...ast.children];
-  bfsAstList.forEach((ast, i) => {
-    const id = i + 1;
-    const children = ast.getChildren();
+export function genAstList(ast: HTMLElementAst): AstNode[] {
+  const bfsAstList: AstNode[] = [ast];
+  let id = 0;
+  while (id < bfsAstList.length) {
+    const bfsAst = bfsAstList[id];
+
+    const children = bfsAst.getChildren();
+
     if (!children) {
-      return;
+      break;
     }
+
     children.forEach((child) => {
       bfsAstList.push(child);
       parentIdMap.set(child, id);
     });
-  });
+    id++;
+  }
+
   return bfsAstList;
 }
 
 function createCodeSnippetByEl(ast: HTMLElementAst, id: number): CodeSnippet {
-  const parentId = parentIdMap.get(ast) ?? 0;
-
+  const parentId = parentIdMap.get(ast) ?? -1;
+  if (ast.tag === "template") {
+    return {
+      parentId,
+      id,
+      createSnippet: `$0:context.parentEl`,
+      attributeSnippet: "",
+      mount: "",
+    };
+  }
   return {
     parentId,
     id,
@@ -129,7 +152,7 @@ function createCodeSnippetByEl(ast: HTMLElementAst, id: number): CodeSnippet {
   };
 }
 function createCodeSnippetByText(ast: HTMLTextAst, id: number) {
-  const parentId = parentIdMap.get(ast) ?? 0;
+  const parentId = parentIdMap.get(ast) ?? -1;
   return {
     parentId,
     id,

@@ -1,5 +1,6 @@
 import { HTMLElementAst, HTMLTextAst } from "@vue-vapor/compile-core";
 import { CodeSnippet } from "./type";
+import { indent } from "./utils";
 
 export const SET_ATTRIBUTE_VAR_NAME = "sa";
 export const RENDER_VAR_NAME = `$render`;
@@ -27,10 +28,10 @@ export function setupSnippetTemplate(
   scriptSnippet: string,
   renderSnippet: string
 ) {
-  return `export default function (){
-  ${scriptSnippet}
+  return `export default function (props,context){
+  ${indent(scriptSnippet, 1)}
 
-  ${renderSnippet}
+  ${indent(renderSnippet)}
 }`;
 }
 
@@ -62,9 +63,10 @@ export function appendTemplate(parentId: number, ...ids: number[]) {
 const saTemplate = `function ${SET_ATTRIBUTE_VAR_NAME}(e, key, value) {e.setAttribute(key, value);}`;
 export function setAttributeTemplate(id: number, key: string, value: string) {
   const dyn = ["@", ":", "v-"].some((item) => key.startsWith(item));
+  addImport("@vue/reactivity", "unref");
 
-  return `${SET_ATTRIBUTE_VAR_NAME}(${getElVarTemplate(id)},"${key}",${
-    dyn ? value : `"${value}"`
+  return `${getElVarTemplate(id)}.setAttribute("${key}",${
+    dyn ? `unref(${value})` : `"${value}"`
   });`;
 }
 
@@ -81,10 +83,14 @@ export function createTextTemplate(ast: HTMLTextAst, id: number) {
 }
 
 export function createWatchEffectSnippet(snippet: string) {
+  if (!snippet) return "";
   addImport("@vue/reactivity", EFFECT_NAME);
   return `${EFFECT_NAME}(()=>{${snippet}});`;
 }
-export function addImport(packageName: string, ...varName: string[]) {
+export function addImport<T extends `@${`vue${`/reactivity` | `-vapor`}`}`>(
+  packageName: T,
+  ...varName: string[]
+) {
   const compileImportDeps =
     compileImport[packageName] ?? (compileImport[packageName] = new Set());
 

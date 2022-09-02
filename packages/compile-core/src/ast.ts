@@ -32,8 +32,8 @@ export interface AstNode {
 export class HTMLAst implements AstNode {
   type = NodeType.HTMLAst;
   constructor() {}
-  getChildren(): AstNode[] | null {
-    return null;
+  getChildren(): AstNode[] {
+    return [];
   }
 }
 
@@ -66,6 +66,9 @@ export class HTMLTextAst extends HTMLAst {
 }
 export class HTMLTemplateStatementAst extends HTMLAst {
   type = NodeType.HTMLTemplateStatementAst;
+  getChildren(): AstNode[] {
+    return [];
+  }
   constructor(public sentence: string) {
     super();
   }

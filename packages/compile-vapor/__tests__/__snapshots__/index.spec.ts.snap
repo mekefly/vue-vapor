@@ -1,0 +1,293 @@
+// Vitest Snapshot v1
+
+exports[`index > <template><div><div><div><div><div></div></div></div></div></div></template> 2`] = `
+[
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [
+              HTMLElementAst {
+                "children": [
+                  HTMLElementAst {
+                    "children": [
+                      HTMLElementAst {
+                        "children": [],
+                        "props": {},
+                        "tag": "div",
+                        "type": "HTMLElementAst",
+                      },
+                    ],
+                    "props": {},
+                    "tag": "div",
+                    "type": "HTMLElementAst",
+                  },
+                ],
+                "props": {},
+                "tag": "div",
+                "type": "HTMLElementAst",
+              },
+            ],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "template",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [
+              HTMLElementAst {
+                "children": [
+                  HTMLElementAst {
+                    "children": [],
+                    "props": {},
+                    "tag": "div",
+                    "type": "HTMLElementAst",
+                  },
+                ],
+                "props": {},
+                "tag": "div",
+                "type": "HTMLElementAst",
+              },
+            ],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [
+              HTMLElementAst {
+                "children": [],
+                "props": {},
+                "tag": "div",
+                "type": "HTMLElementAst",
+              },
+            ],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+]
+`;
+
+exports[`index > <template><div><div><div><div><div></div></div></div></div></div></template> 4`] = `
+[
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [
+              HTMLElementAst {
+                "children": [
+                  HTMLElementAst {
+                    "children": [
+                      HTMLElementAst {
+                        "children": [],
+                        "props": {},
+                        "tag": "div",
+                        "type": "HTMLElementAst",
+                      },
+                    ],
+                    "props": {},
+                    "tag": "div",
+                    "type": "HTMLElementAst",
+                  },
+                ],
+                "props": {},
+                "tag": "div",
+                "type": "HTMLElementAst",
+              },
+            ],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "template",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [
+              HTMLElementAst {
+                "children": [
+                  HTMLElementAst {
+                    "children": [],
+                    "props": {},
+                    "tag": "div",
+                    "type": "HTMLElementAst",
+                  },
+                ],
+                "props": {},
+                "tag": "div",
+                "type": "HTMLElementAst",
+              },
+            ],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [
+              HTMLElementAst {
+                "children": [],
+                "props": {},
+                "tag": "div",
+                "type": "HTMLElementAst",
+              },
+            ],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [
+          HTMLElementAst {
+            "children": [],
+            "props": {},
+            "tag": "div",
+            "type": "HTMLElementAst",
+          },
+        ],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [
+      HTMLElementAst {
+        "children": [],
+        "props": {},
+        "tag": "div",
+        "type": "HTMLElementAst",
+      },
+    ],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+  HTMLElementAst {
+    "children": [],
+    "props": {},
+    "tag": "div",
+    "type": "HTMLElementAst",
+  },
+]
+`;
