@@ -10,7 +10,9 @@ import { SFC } from "@vue-vapor/compile-sfc";
 import {
   addImport,
   appendTemplate,
+  createComponentTemplate,
   createElementTemplate,
+  createPropTemplateByKey,
   createSnippetTemplate,
   createTemplateStatementTemplate,
   createTextTemplate,
@@ -161,6 +163,25 @@ function createCodeSnippetByEl(ast: HTMLElementAst, id: number): CodeSnippet {
       mount: "",
     };
   }
+  if (/[A-Z]/.test(ast.tag.slice(0, 1))) {
+    return {
+      parentId,
+      id,
+      createSnippet: createComponentTemplate(ast.tag, parentId, id),
+      attributeSnippet: createWatchEffectSnippet(
+        Object.entries(ast.props)
+          .map(([k, v]) => {
+            const snip = createPropTemplateByKey(k, v, true);
+            return `${getElVarTemplate(id)}.props['${snip.key}'] = ${
+              snip.value
+            };`;
+          })
+          .join("")
+      ),
+      mount: "",
+    };
+  }
+
   return {
     parentId,
     id,

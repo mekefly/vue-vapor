@@ -39,18 +39,18 @@ describe("template", () => {
     );
   });
   test("getElVarTemplate", () => {
-    expect(getElVarTemplate(0)).toMatchInlineSnapshot('"node.$0"');
-    expect(getElVarTemplate(2)).toMatchInlineSnapshot('"node.$2"');
+    expect(getElVarTemplate(0)).toMatchInlineSnapshot('"$.$0"');
+    expect(getElVarTemplate(2)).toMatchInlineSnapshot('"$.$2"');
   });
   test("setAttributeTemplate", () => {
     expect(setAttributeTemplate(0, "class", "c-xx")).toMatchInlineSnapshot(
-      '"sa(node.$0,\\"class\\",\\"c-xx\\"});"'
+      '"sa($.$0,\\"class\\",\\"c-xx\\"});"'
     );
   });
   let appendSnippet = "";
   test("appendTemplate", () => {
     expect((appendSnippet = appendTemplate(0, 1, 2, 3))).toMatchInlineSnapshot(
-      '"node.$0.append(node.$1,node.$2,node.$3);"'
+      '"$.$0.append($.$1,$.$2,$.$3);"'
     );
   });
   const divAsp = parser("<div></div>").getChildren()[0] as any;
@@ -78,7 +78,7 @@ describe("template", () => {
         ])
       ))
     ).toMatchInlineSnapshot(
-      '"var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};"'
+      '"var $ = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};"'
     );
   });
   test("renderCodeSnippetTemplate", () => {
@@ -89,9 +89,9 @@ describe("template", () => {
       renderCodeSnippetTemplate(createSnippet, appendSnippet, attributeSnippet)
     ).toMatchInlineSnapshot(`
       "
-        var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
-        node.$0.append(node.$1);
-        effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\"});});"
+        var $ = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
+        $.$0.append($.$1);
+        effect(()=>{sa($.$1,\\"class\\",\\"class-name\\"});});"
     `);
   });
   test("setupSnippetTemplate", () => {
@@ -113,10 +113,12 @@ describe("template", () => {
           const count = ref(0);
         
 
-          
-          var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
-          node.$0.append(node.$1);
-          effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\"});});
+        (function(){
+            
+            var $ = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
+            $.$0.append($.$1);
+            effect(()=>{sa($.$1,\\"class\\",\\"class-name\\"});});
+        })()
       }"
     `);
   });
@@ -138,15 +140,29 @@ describe("template", () => {
       const ae = (e, key, value)=>e.addEventListener(key, value)
       const ce = document.createElement.bind(document)
 
+
+      const cc = (Component, parentEl) => {
+        const instance = {
+          Component,
+          props: {},
+          context: {},
+          parentEl,
+        };
+        Component(instance.props, instance);
+        return instance;
+      };
+
       const ct = document.createTextNode.bind(document)
       export default function (props,context){
           const count = ref(0);
         
 
-          
-          var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
-          node.$0.append(node.$1);
-          effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\"});});
+        (function(){
+            
+            var $ = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
+            $.$0.append($.$1);
+            effect(()=>{sa($.$1,\\"class\\",\\"class-name\\"});});
+        })()
       }"
     `);
   });

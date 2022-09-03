@@ -70,6 +70,7 @@ test("createOptions", () => {
         "false",
         "true",
       ],
+      "watch": false,
       "workSpace": [
         "scripts/build/testCase",
       ],
@@ -103,6 +104,7 @@ test("createOptions", () => {
         "false",
         "true",
       ],
+      "watch": false,
       "workSpace": [
         "scripts/build/testCase",
       ],
