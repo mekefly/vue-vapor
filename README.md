@@ -7,6 +7,8 @@
 - [x] workspace build
   - [x] scripts
   - [x] rollup.config.js
+  - [x] 多线程序 build
+  - [x] 修改坚听 build
 - [ ] compile-core
   - [ ] 框架
     - [x] parser ast
@@ -18,8 +20,12 @@
 - [ ] compile-vapor
   - [x] dom 解析，生成代码
   - [ ] 组件解析
+  - [x] 类似与这样的{{}}模板解析与响应编译
+  - [x] dom 事件注册
+  - [x] 响应化的属性
 - [ ] runtime-resolve
 - [ ] runtime-core
+- [x] dev 开发实时预览效果
 
 ## Includes
 
