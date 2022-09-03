@@ -22,7 +22,9 @@
     "build:prod": "node scripts/build --prod 'true'",
     "build:dev": "node scripts/build --prod 'false'",
     "pub": "npm publish",
-    "test": "vitest"
+    "test": "vitest",
+    "dev": "node scripts/dev",
+    "build:reBuildScript": "pnpm build --rebuildScript"
   },
   "dependencies": {
     "@babel/core": "^7.18.10"
