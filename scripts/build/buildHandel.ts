@@ -1,19 +1,19 @@
-import os from "os";
 import { resolve } from "path";
 import pc from "picocolors";
 import { exec } from "shelljs";
+import { Queue } from "./Queue";
 import { Commend } from "./types";
 
 export type HandelOptions = typeof DEFAULT_HANDEL_OPTIONS;
 const BUILD_CONFIG_PATH = resolve("scripts/build/buildConfig/index.js");
 
-// 超过十线程会引发一个事件坚听警告，但运行没问题
-const MAX_CONCURRENCY: number = Math.min(os.cpus().length, 10);
-
 const clash = new Map();
-export const DEFAULT_HANDEL_OPTIONS = {
+class DefaultHandelOptions {
+  public queue = new Queue();
+
+  mixinCommend: string[] = [];
   $(environment: Commend, index: number, CommendList: Commend[]) {
-    runParallel(async () => {
+    this.queue.runParallel(async () => {
       console.log(
         pc.bgBlue(
           pc.white(
@@ -30,16 +30,16 @@ export const DEFAULT_HANDEL_OPTIONS = {
         });
       });
     });
-  },
+  }
   async runs(commendList: string[][]) {
     DEFAULT_HANDEL_OPTIONS.commandPreview(commendList);
 
-    commendList.forEach(DEFAULT_HANDEL_OPTIONS.$);
+    commendList.forEach((...rest) => this.$(...rest));
 
     console.log("任物已提交-------------------------------------------------");
-    await allCompletePromise;
+    await this.queue.allCompletePromise;
     console.log("任物已完成-------------------------------------------------");
-  },
+  }
   genBuildStringCommend(environment: string[]) {
     let commendString = clash.get(environment);
     if (commendString) {
@@ -53,11 +53,12 @@ export const DEFAULT_HANDEL_OPTIONS = {
       BUILD_CONFIG_PATH,
       "--environment",
       environment.filter(Boolean).join(","),
+      ...this.mixinCommend,
     ].join(" ");
     clash.set(environment, commendString);
 
     return commendString;
-  },
+  }
   commandPreview(commendList: string[][]) {
     commendList.forEach((commend, index) => {
       const commandString = this.genBuildStringCommend(commend);
@@ -86,59 +87,10 @@ export const DEFAULT_HANDEL_OPTIONS = {
         pc.blue(`\n${pc.bold(pc.red("commend:"))}\n${commandString}\n`)
       );
     });
-  },
-};
-
-const executing = new Set<Promise<any>>();
-
-let index = 1;
-let ruiningOfNumber = 1;
-const queue: any = [];
-
-let complete: any;
-let allCompletePromise: any = new Promise<void>((resolve, reject) => {
-  complete = resolve;
-});
-
-function runParallel(callback: () => Promise<any>) {
-  //等待回调函数是否已就序
-  if (!complete) {
-    setTimeout(() => runParallel(callback));
-    return;
   }
-  queue.push(callback);
-  console.log();
-  console.log(`[id: ${index++}]`);
-  console.log(`[并发: ${executing.size}/${MAX_CONCURRENCY}]`);
-  if (executing.size >= MAX_CONCURRENCY) {
-    return;
+  addCommend(...commend: string[]) {
+    this.mixinCommend.push(...commend);
   }
-  runQueue();
 }
 
-let queueId = 0;
-function runQueue() {
-  if (queueId >= queue.length) {
-    return;
-  }
-  const task = queue[queueId++];
-
-  console.log();
-  console.log(`[StartRun: ${ruiningOfNumber++}]`);
-  console.log(`[并发: ${executing.size + 1}/${MAX_CONCURRENCY}]`);
-
-  const thisId = queueId;
-
-  task().then(() => {
-    console.log(`Exit queue: ${thisId}`);
-    executing.delete(task);
-    runQueue();
-
-    //退出
-    if (thisId === queue.length) {
-      complete();
-    }
-  });
-
-  executing.add(task);
-}
+export const DEFAULT_HANDEL_OPTIONS = new DefaultHandelOptions();

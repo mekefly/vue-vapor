@@ -24,6 +24,12 @@ export async function buildPackages(
     const commendList = createPackageCommendList(packagePath, configOptions);
     allCommendList.push(...commendList);
   }
+  const { watch } = configOptions;
+
+  if (watch) {
+    handelOptions.addCommend("--watch");
+    handelOptions.queue.MAX_CONCURRENCY = Infinity;
+  }
 
   //执行rollup命令
   await handelOptions.runs(allCommendList);

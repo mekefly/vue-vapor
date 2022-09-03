@@ -34,6 +34,8 @@ for (const key in DEFAULT_BUILD_OPTIONS) {
   cli.option(`-${short}, --${key} <${key}>`, help);
 }
 
+cli.option("-w, --watch", "监听更改");
+
 cli.usage("可以输入参数设置\n','号将清空默认值，命令后面的例子就是默认值选项");
 cli.help();
 

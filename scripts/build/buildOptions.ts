@@ -14,6 +14,7 @@ export const DEFAULT_BUILD_OPTIONS = {
   format: ["cjs", "esm", "iife"],
   prod: ["false", "true"],
   declaration: true,
+  watch: false,
 };
 export type BuildOptions = typeof DEFAULT_BUILD_OPTIONS;
 
