@@ -77,8 +77,11 @@
       const editDom = document.querySelector(".edit");
       const jsDom = document.querySelector(".js");
       async function init(params) {
-        const xxx = await fetch("./case/case2.vue");
-        editDom.value = await xxx.text();
+        const xxx = await fetch("case/case2.vue?raw");
+        let text = await xxx.text();
+        text = text.replace("export default ", "");
+        text = JSON.parse(text);
+        editDom.value = text;
         update();
       }
       init();
@@ -88,7 +91,7 @@
       function throttle(callback) {
         return () => {
           clearTimeout(timelier);
-          timelier = setTimeout(callback, 1000);
+          timelier = setTimeout(callback, 500);
         };
       }
 

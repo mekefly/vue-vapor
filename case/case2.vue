@@ -6,7 +6,9 @@ const count = ref(0);
 function handle() {
   count.value++;
   console.log(count.value);
+  console.log("34343");
 }
+const log = console.log;
 </script>
 
 <template>
@@ -14,6 +16,13 @@ function handle() {
     <div>
       <input :value="count" />xx{{ count }}
       <button @click="handle">Add</button>
+      <div @click="">
+        {{
+          (() => {
+            return "343434";
+          })()
+        }}
+      </div>
     </div>
   </div>
 </template>
