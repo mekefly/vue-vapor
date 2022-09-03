@@ -22,23 +22,48 @@
     <script src="./packages/compile-sfc/dist//vue-vapor-compile-sfc.iife.js"></script>
     <script src="./packages/compile-vapor/dist/vue-vapor-compile-vapor.iife.js"></script>
 
-    <textarea class="edit" name="" id="" cols="30" rows="10"> </textarea>
+    <div class="left">
+      <textarea class="edit" name="" id="" cols="30" rows="10"> </textarea>
+      <textarea class="js" name="" id="" cols="30" rows="10"> </textarea>
+    </div>
     <div id="app"></div>
     <style>
       body {
         display: flex;
-
         height: 100vh;
         width: 100vw;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .left {
+        display: flex;
+        flex-direction: column;
+
+        height: 100%;
+        width: 50%;
       }
       .edit {
         display: flex;
-        height: 100vh;
-        width: 50vw;
-        resize: none;
+
+        height: 50%;
+        margin-bottom: 5px;
         box-sizing: border-box;
-        margin: 0px;
-        padding: 0px;
+
+        background-color: #c7ecee;
+        border-radius: 10px;
+        resize: none;
+      }
+      .js {
+        display: flex;
+
+        height: 50%;
+        margin-top: 5px;
+        box-sizing: border-box;
+
+        background-color: #fdcb6e;
+        border-radius: 10px;
+        resize: none;
       }
     </style>
 
@@ -50,6 +75,7 @@
         Vue;
 
       const editDom = document.querySelector(".edit");
+      const jsDom = document.querySelector(".js");
       async function init(params) {
         const xxx = await fetch("./case/case2.vue");
         editDom.value = await xxx.text();
@@ -75,6 +101,7 @@
         const newCode = codegen(sfc);
         const extractImportValue = extractImport(newCode);
         const script = deleteExport(extractImportValue.script);
+        jsDom.value = script;
         eval(script);
 
         App({}, { parentEl: document.querySelector("#app") });
