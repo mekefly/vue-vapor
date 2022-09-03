@@ -11,7 +11,11 @@ function handle() {
 
 <template>
   <div>
-    <div><input :value="count" /><button @click="handle">ClickOn</button></div>
+    <div>
+      <input :value="count" />xx{{ "111" }}1343<button @click="handle">
+        ClickOn
+      </button>
+    </div>
   </div>
 </template>
 

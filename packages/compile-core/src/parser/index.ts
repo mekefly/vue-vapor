@@ -1,4 +1,9 @@
-import { HTMLElementAst, HTMLTextAst, RootAst } from "../ast";
+import {
+  HTMLElementAst,
+  HTMLTemplateStatementAst,
+  HTMLTextAst,
+  RootAst,
+} from "../ast";
 import { ParserError } from "./error";
 import { genStack } from "./genStack";
 import { isThePrefixOfTag, parserInTag } from "./parserInTag";
@@ -116,7 +121,77 @@ function checkForMissingLabels(
   }
 }
 
-function addHtmlTextAst(matchPrefix: string, stackTop: HTMLElementAst) {
-  if (matchPrefix.length > 0)
-    stackTop.children.push(new HTMLTextAst(matchPrefix));
+export function addHtmlTextAst(matchPrefix: string, stackTop: HTMLElementAst) {
+  const xx = parserTemplateStatement(matchPrefix);
+
+  if (matchPrefix.length <= 0) return;
+  xx.forEach((c, index) => {
+    if (c.length <= 0) return;
+    if (index % 2 === 0) {
+      stackTop.children.push(new HTMLTextAst(c));
+    } else {
+      stackTop.children.push(new HTMLTemplateStatementAst(c));
+    }
+  });
+}
+
+const stack: string[] = [];
+export function parserTemplateStatement(text: string) {
+  let current = 0;
+  const anchor = [];
+  const openState: Record<string, boolean> = {};
+
+  let openTheTag: string | undefined;
+  while (current < text.length) {
+    const c = text[current];
+    if (!openTheTag && text.slice(current, current + 2) === "{{") {
+      stack.push("{{");
+      anchor.push(current);
+    } else if (!openTheTag && text.slice(current, current + 2) === "}}") {
+      const xx = stack.pop();
+      if (xx !== "{{") {
+        throw new Error("不匹配的模板");
+      }
+      anchor.push(current);
+    } else if (stringIdentifier("'", c)) {
+    } else if (stringIdentifier('"', c)) {
+    } else if (stringIdentifier("`", c)) {
+    }
+    current++;
+  }
+  let l = 0;
+  anchor.push(text.length);
+  return anchor.map((c, index) => {
+    let v = text.slice(l, c);
+
+    if (index > 0) {
+      v = v.slice(2);
+    }
+
+    l = c;
+    return v;
+  });
+
+  function stringIdentifier(t: string, c: string): boolean {
+    if (openTheTag && openTheTag !== t) {
+      return false;
+    }
+    if (c === t) {
+      if (openState[t]) {
+        const xx = stack.pop();
+        if (xx !== t) {
+          throw new Error("不匹配的'");
+        }
+        openTheTag = undefined;
+        openState[t] = false;
+      } else {
+        openTheTag = t;
+        openState[t] = true;
+        stack.push(t);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

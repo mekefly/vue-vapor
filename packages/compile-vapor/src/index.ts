@@ -1,6 +1,7 @@
 import {
   AstNode,
   HTMLElementAst,
+  HTMLTemplateStatementAst,
   HTMLTextAst,
   NodeType,
   typeFor,
@@ -12,6 +13,7 @@ import {
   createSnippetTemplate,
   createTextTemplate,
   createWatchEffectSnippet,
+  getElVarTemplate,
   moduleSnippetTemplate,
   renderCodeSnippetTemplate,
   setAttributeTemplate,
@@ -68,10 +70,27 @@ function genAstNodeList(astList: AstNode[]) {
     } else if (typeFor(ast, HTMLTextAst)) {
       return createCodeSnippetByText(ast, id);
     } else if (typeFor(ast, HTMLTemplateStatementAst)) {
-      throw new Error("todo");
+      return createCodeSnippetByTemplateStatement(ast as any, id);
     }
-    throw new Error("不适合的标签");
+
+    throw new Error(`不适合的签: ${ast.type}`);
   });
+}
+function createCodeSnippetByTemplateStatement(
+  ast: HTMLTemplateStatementAst,
+  id: number
+) {
+  const parentId = parentIdMap.get(ast) ?? -1;
+
+  return {
+    parentId,
+    id,
+    createSnippet: `$${id}: document.createTextNode("")`,
+    attributeSnippet: createWatchEffectSnippet(
+      `${getElVarTemplate(id)}.nodeValue = '${ast.snippet}'`
+    ),
+    mount: appendTemplate(parentId, id),
+  };
 }
 
 function createSnippets(codeSnippets: CodeSnippet[]): {

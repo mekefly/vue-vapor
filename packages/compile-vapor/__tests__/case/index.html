@@ -18,9 +18,11 @@
     <script src="https://unpkg.com/@wormery/wtsc@2.0.0-bate.38/dist/wtsc.iife.js"></script>
     <!-- <script src="https://unpkg.com/@wormery/wtsc@2.0.0-bate.38/dist/wtsc.iife.prod.js"></script> -->
 
+    <script src="../../dist/vue-vapor-compile-vapor.iife.js"></script>
     <div id="app"></div>
 
     <script type="text/babel">
+      const { codegen } = VueVaporCompileVapor;
       const { createApp, h, ref, computed, defineComponent, effect, unref } =
         Vue;
       console.log(Vue);
@@ -54,6 +56,7 @@
         node.$5.append(node.$7, node.$8);
 
         node.$8.append(node.$9);
+        node.$6.nodeValue = "34343434";
         effect(() => {
           effect(() => {
             node.$7.setAttribute("value", unref(count));

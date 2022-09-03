@@ -37,7 +37,9 @@ export class HTMLAst implements AstNode {
   }
 }
 
-export type HTMLAstChildren = Array<HTMLElementAst | HTMLTextAst>;
+export type HTMLAstChildren = Array<
+  HTMLElementAst | HTMLTextAst | HTMLTemplateStatementAst
+>;
 export class HTMLElementAst extends HTMLAst {
   type = NodeType.HTMLElementAst;
   tag: string;
@@ -69,7 +71,7 @@ export class HTMLTemplateStatementAst extends HTMLAst {
   getChildren(): AstNode[] {
     return [];
   }
-  constructor(public sentence: string) {
+  constructor(public snippet: string) {
     super();
   }
 }

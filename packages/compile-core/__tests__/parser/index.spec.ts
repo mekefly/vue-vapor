@@ -3,9 +3,204 @@ import {
   HTMLTextAst,
   RootAst,
 } from "packages/compile-core/src/ast";
-import { parser } from "packages/compile-core/src/parser";
+import {
+  addHtmlTextAst,
+  parser,
+  parserTemplateStatement,
+} from "packages/compile-core/src/parser";
 import { ParserError } from "packages/compile-core/src/parser/error";
 import { isThePrefixOfTag } from "packages/compile-core/src/parser/parserInTag";
+describe("parserTemplateStatement", () => {
+  test("fdfdfdfdfdfdfdf", ({ meta: { name } }) => {
+    expect(parserTemplateStatement(name)).toMatchInlineSnapshot(`
+      [
+        "fdfdfdfdfdfdfdf",
+      ]
+    `);
+  });
+  test("fdfdfdfdf{{a+b}}dfdf{{3+4}}dfdfdf", ({ meta: { name } }) => {
+    expect(parserTemplateStatement(name)).toMatchInlineSnapshot(`
+      [
+        "fdfdfdfdf",
+        "a+b",
+        "dfdf",
+        "3+4",
+        "dfdfdf",
+      ]
+    `);
+  });
+  test("fdfdfdfdf{{'{{}}'}}dfdf{{3+4}}dfdfdf", ({ meta: { name } }) => {
+    expect(parserTemplateStatement(name)).toMatchInlineSnapshot(`
+      [
+        "fdfdfdfdf",
+        "'{{}}'",
+        "dfdf",
+        "3+4",
+        "dfdfdf",
+      ]
+    `);
+  });
+  test(`{{ "{}{}{}"}}`, ({ meta: { name } }) => {
+    expect(parserTemplateStatement(name)).toMatchInlineSnapshot(`
+      [
+        "",
+        " \\"{}{}{}\\"",
+        "",
+      ]
+    `);
+  });
+});
+describe("addHtmlTextAst", () => {
+  test(`{{ "{}{}{}"}}`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop).toMatchInlineSnapshot(`
+      {
+        "children": [
+          HTMLTemplateStatementAst {
+            "snippet": " \\"{}{}{}\\"",
+            "type": "HTMLTemplateStatementAst",
+          },
+        ],
+      }
+    `);
+  });
+  test(`xxx{{"1123"}}xxx`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop.children).toMatchInlineSnapshot(`
+      [
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "\\"1123\\"",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+      ]
+    `);
+  });
+  test(`xxx{{count}}xxx`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop.children).toMatchInlineSnapshot(`
+      [
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "count",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+      ]
+    `);
+  });
+  test(`xxx{{count\n}}xxx`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop.children).toMatchInlineSnapshot(`
+      [
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "count
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+      ]
+    `);
+  });
+  test(`xxx{{count\n}}xx{{xxx\n}}x`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop.children).toMatchInlineSnapshot(`
+      [
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "count
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTextAst {
+          "text": "xx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "xxx
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTextAst {
+          "text": "x",
+          "type": "HTMLTextAst",
+        },
+      ]
+    `);
+  });
+  test(`xxx{{count\n}}xx{{xxx\n}}`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop.children).toMatchInlineSnapshot(`
+      [
+        HTMLTextAst {
+          "text": "xxx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "count
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTextAst {
+          "text": "xx",
+          "type": "HTMLTextAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "xxx
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+      ]
+    `);
+  });
+  test(`{{count\n}}{{xxx\n}}`, ({ meta: { name } }) => {
+    const stackTop: any = { children: [] };
+    addHtmlTextAst(name, stackTop);
+    expect(stackTop.children).toMatchInlineSnapshot(`
+      [
+        HTMLTemplateStatementAst {
+          "snippet": "count
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+        HTMLTemplateStatementAst {
+          "snippet": "xxx
+      ",
+          "type": "HTMLTemplateStatementAst",
+        },
+      ]
+    `);
+  });
+});
 
 test("isThePrefixOfTag", () => {
   let value = isThePrefixOfTag("<");

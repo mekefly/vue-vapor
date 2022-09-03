@@ -143,6 +143,11 @@ describe("index", () => {
                 },
                 HTMLElementAst {
                   "children": [
+                    HTMLTextAst {
+                      "text": "
+            ",
+                      "type": "HTMLTextAst",
+                    },
                     HTMLElementAst {
                       "children": [],
                       "props": {
@@ -151,10 +156,24 @@ describe("index", () => {
                       "tag": "input",
                       "type": "HTMLElementAst",
                     },
+                    HTMLTextAst {
+                      "text": "xx",
+                      "type": "HTMLTextAst",
+                    },
+                    HTMLTemplateStatementAst {
+                      "snippet": " \\"111\\" ",
+                      "type": "HTMLTemplateStatementAst",
+                    },
+                    HTMLTextAst {
+                      "text": "1343",
+                      "type": "HTMLTextAst",
+                    },
                     HTMLElementAst {
                       "children": [
                         HTMLTextAst {
-                          "text": "ClickOn",
+                          "text": "
+              ClickOn
+            ",
                           "type": "HTMLTextAst",
                         },
                       ],
@@ -163,6 +182,11 @@ describe("index", () => {
                       },
                       "tag": "button",
                       "type": "HTMLElementAst",
+                    },
+                    HTMLTextAst {
+                      "text": "
+          ",
+                      "type": "HTMLTextAst",
                     },
                   ],
                   "props": {},
@@ -194,7 +218,7 @@ describe("index", () => {
     `);
 
     const list = genAstList(sfc.template);
-    expect(list.length).toMatchInlineSnapshot('10');
+    expect(list.length).toMatchInlineSnapshot('15');
     expect(list.map((item) => item.type + " => " + Object.values(item)))
       .toMatchInlineSnapshot(`
         [
@@ -206,12 +230,21 @@ describe("index", () => {
         ",
           "HTMLTextAst => HTMLTextAst,
             ",
-          "HTMLElementAst => HTMLElementAst,div,[object Object],[object Object],[object Object]",
+          "HTMLElementAst => HTMLElementAst,div,[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
           "HTMLTextAst => HTMLTextAst,
           ",
+          "HTMLTextAst => HTMLTextAst,
+              ",
           "HTMLElementAst => HTMLElementAst,input,[object Object],",
+          "HTMLTextAst => HTMLTextAst,xx",
+          "HTMLTemplateStatementAst => HTMLTemplateStatementAst, \\"111\\" ",
+          "HTMLTextAst => HTMLTextAst,1343",
           "HTMLElementAst => HTMLElementAst,button,[object Object],[object Object]",
-          "HTMLTextAst => HTMLTextAst,ClickOn",
+          "HTMLTextAst => HTMLTextAst,
+            ",
+          "HTMLTextAst => HTMLTextAst,
+                ClickOn
+              ",
         ]
       `);
   });
@@ -247,6 +280,11 @@ describe("index", () => {
                 },
                 HTMLElementAst {
                   "children": [
+                    HTMLTextAst {
+                      "text": "
+            ",
+                      "type": "HTMLTextAst",
+                    },
                     HTMLElementAst {
                       "children": [],
                       "props": {
@@ -255,10 +293,24 @@ describe("index", () => {
                       "tag": "input",
                       "type": "HTMLElementAst",
                     },
+                    HTMLTextAst {
+                      "text": "xx",
+                      "type": "HTMLTextAst",
+                    },
+                    HTMLTemplateStatementAst {
+                      "snippet": " \\"111\\" ",
+                      "type": "HTMLTemplateStatementAst",
+                    },
+                    HTMLTextAst {
+                      "text": "1343",
+                      "type": "HTMLTextAst",
+                    },
                     HTMLElementAst {
                       "children": [
                         HTMLTextAst {
-                          "text": "ClickOn",
+                          "text": "
+              ClickOn
+            ",
                           "type": "HTMLTextAst",
                         },
                       ],
@@ -267,6 +319,11 @@ describe("index", () => {
                       },
                       "tag": "button",
                       "type": "HTMLElementAst",
+                    },
+                    HTMLTextAst {
+                      "text": "
+          ",
+                      "type": "HTMLTextAst",
                     },
                   ],
                   "props": {},
@@ -311,17 +368,21 @@ describe("index", () => {
         
 
           
-          var node = {$0:context.parentEl,$1: document.createTextNode(\\"\\\\n  \\"),$2: document.createElement(\\"div\\"),$3: document.createTextNode(\\"\\\\n\\"),$4: document.createTextNode(\\"\\\\n    \\"),$5: document.createElement(\\"div\\"),$6: document.createTextNode(\\"\\\\n  \\"),$7: document.createElement(\\"input\\"),$8: document.createElement(\\"button\\"),$9: document.createTextNode(\\"ClickOn\\")};
+          var node = {$0:context.parentEl,$1: document.createTextNode(\\"\\\\n  \\"),$2: document.createElement(\\"div\\"),$3: document.createTextNode(\\"\\\\n\\"),$4: document.createTextNode(\\"\\\\n    \\"),$5: document.createElement(\\"div\\"),$6: document.createTextNode(\\"\\\\n  \\"),$7: document.createTextNode(\\"\\\\n      \\"),$8: document.createElement(\\"input\\"),$9: document.createTextNode(\\"xx\\"),$10: document.createTextNode(\\"\\"),$11: document.createTextNode(\\"1343\\"),$12: document.createElement(\\"button\\"),$13: document.createTextNode(\\"\\\\n    \\"),$14: document.createTextNode(\\"\\\\n        ClickOn\\\\n      \\")};
           node.$0.append(node.$1,node.$2,node.$3);
         
         node.$2.append(node.$4,node.$5,node.$6);
         
         
-        node.$5.append(node.$7,node.$8);
+        node.$5.append(node.$7,node.$8,node.$9,node.$10,node.$11,node.$12,node.$13);
         
         
-        node.$8.append(node.$9);
-          effect(()=>{effect(()=>{node.$7.setAttribute(\\"value\\",unref(count));});effect(()=>{node.$8.addEventListener(\\"click\\",handle);});});
+        
+        
+        
+        
+        node.$12.append(node.$14);
+          effect(()=>{effect(()=>{node.$8.setAttribute(\\"value\\",unref(count));});effect(()=>{node.$10.nodeValue = ' \\"111\\" '});effect(()=>{node.$12.addEventListener(\\"click\\",handle);});});
       }"
     `);
   });
