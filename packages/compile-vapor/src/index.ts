@@ -8,9 +8,11 @@ import {
 } from "@vue-vapor/compile-core";
 import { SFC } from "@vue-vapor/compile-sfc";
 import {
+  addImport,
   appendTemplate,
   createElementTemplate,
   createSnippetTemplate,
+  createTemplateStatementTemplate,
   createTextTemplate,
   createWatchEffectSnippet,
   getElVarTemplate,
@@ -81,13 +83,14 @@ function createCodeSnippetByTemplateStatement(
   id: number
 ) {
   const parentId = parentIdMap.get(ast) ?? -1;
+  addImport("@vue/reactivity", "unref");
 
   return {
     parentId,
     id,
-    createSnippet: `$${id}: document.createTextNode("")`,
+    createSnippet: createTemplateStatementTemplate(id, "''"),
     attributeSnippet: createWatchEffectSnippet(
-      `${getElVarTemplate(id)}.nodeValue = '${ast.snippet}'`
+      `${getElVarTemplate(id)}.nodeValue = String(unref(${ast.snippet}))`
     ),
     mount: appendTemplate(parentId, id),
   };

@@ -2,12 +2,14 @@ import { HTMLElementAst, HTMLTextAst } from "@vue-vapor/compile-core";
 import { CodeSnippet } from "./type";
 import { indent } from "./utils";
 
+export const ADD_EVENT_LISTENER_VAR_NAME = "ae";
 export const SET_ATTRIBUTE_VAR_NAME = "sa";
 export const RENDER_VAR_NAME = `$render`;
 export const VARIABLE_NAME = "node";
 export const EFFECT_NAME = "effect";
 
 const compileImport: Record<string, Set<string>> = {};
+const moduleSnippets: Set<string> = new Set();
 
 export function moduleSnippetTemplate(
   importSnippet: string,
@@ -21,7 +23,9 @@ export function moduleSnippetTemplate(
       )
       .join() + importSnippet;
 
-  return `${importSnippet ? `${importSnippet}\n\n` : "\n"}${setupSnippet}`;
+  return `${importSnippet ? `${importSnippet}\n\n` : "\n"}${[
+    ...moduleSnippets,
+  ].join("\n")}${setupSnippet}`;
 }
 
 export function setupSnippetTemplate(
@@ -60,21 +64,28 @@ export function appendTemplate(parentId: number, ...ids: number[]) {
     .join(",")});`;
 }
 
-const saTemplate = `function ${SET_ATTRIBUTE_VAR_NAME}(e, key, value) {e.setAttribute(key, value);}`;
+moduleSnippets.add(
+  `const ${SET_ATTRIBUTE_VAR_NAME} = (e, key, value)=>e.setAttribute(key, value)`
+);
+moduleSnippets.add(
+  `const ${ADD_EVENT_LISTENER_VAR_NAME} = (e, key, value)=>e.addEventListener(key, value)`
+);
 export function setAttributeTemplate(id: number, key: string, value: string) {
   const dyn = ["@", ":", "v-"].some((item) => key.startsWith(item));
   addImport("@vue/reactivity", "unref");
 
   if (key.startsWith(":")) {
-    return `${getElVarTemplate(id)}.setAttribute("${key.slice(
+    return `${SET_ATTRIBUTE_VAR_NAME}(${getElVarTemplate(id)},"${key.slice(
       1
-    )}",${`unref(${value})`});`;
+    )}",${`String(unref(${value})`}));`;
   } else if (key.startsWith("@")) {
-    return `${getElVarTemplate(id)}.addEventListener("${key.slice(
+    return `${ADD_EVENT_LISTENER_VAR_NAME}(${getElVarTemplate(id)},"${key.slice(
       1
     )}",${value});`;
   } else {
-    return `${getElVarTemplate(id)}.setAttribute("${key}","${value}"});`;
+    return `${SET_ATTRIBUTE_VAR_NAME}(${getElVarTemplate(
+      id
+    )},"${key}","${value}"});`;
   }
 }
 
@@ -82,12 +93,20 @@ export function getElVarTemplate(id: number) {
   return `${VARIABLE_NAME}.$${id}`;
 }
 
+moduleSnippets.add("const ce = document.createElement.bind(document)\n");
 export function createElementTemplate(ast: HTMLElementAst, id: number) {
-  return `$${id}: document.createElement("${ast.tag}")`;
+  return `$${id}: ce("${ast.tag}")`;
 }
 
+moduleSnippets.add("const ct = document.createTextNode.bind(document)\n");
 export function createTextTemplate(ast: HTMLTextAst, id: number) {
-  return `$${id}: document.createTextNode(${JSON.stringify(ast.text)})`;
+  return `$${id}: ct(${JSON.stringify(ast.text)})`;
+}
+export function createTemplateStatementTemplate(
+  id: number,
+  defaul: string = '""'
+) {
+  return `$${id}: ct(${defaul})`;
 }
 
 export function createWatchEffectSnippet(snippet: string) {

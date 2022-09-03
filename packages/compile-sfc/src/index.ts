@@ -5,6 +5,7 @@ import {
   traverser,
 } from "@vue-vapor/compile-core";
 import { extractImport } from "./extractImport";
+export { extractImport };
 // import { codegen as vaporCodegen } from "@vue-vapor/compile-vapor";
 
 // export function codegen(ast: AstNode) {

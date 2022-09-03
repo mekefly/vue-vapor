@@ -27,7 +27,7 @@ describe("template", () => {
     const xxx = parser("hello").getChildren()[0] as any;
 
     expect(spaceDisplay(createTextTemplate(xxx, 0))).toMatchInlineSnapshot(
-      '"$0:_document.createTextNode(\\"hello\\")"'
+      '"$0:_ct(\\"hello\\")"'
     );
   });
   test("createWatchEffectSnippet", () => {
@@ -35,7 +35,7 @@ describe("template", () => {
     const xxx = parser("<div></div>").getChildren()[0] as any;
 
     expect(spaceDisplay(createElementTemplate(xxx, 0))).toMatchInlineSnapshot(
-      '"$0:_document.createElement(\\"div\\")"'
+      '"$0:_ce(\\"div\\")"'
     );
   });
   test("getElVarTemplate", () => {
@@ -44,7 +44,7 @@ describe("template", () => {
   });
   test("setAttributeTemplate", () => {
     expect(setAttributeTemplate(0, "class", "c-xx")).toMatchInlineSnapshot(
-      '"node.$0.setAttribute(\\"class\\",\\"c-xx\\"});"'
+      '"sa(node.$0,\\"class\\",\\"c-xx\\"});"'
     );
   });
   let appendSnippet = "";
@@ -78,7 +78,7 @@ describe("template", () => {
         ])
       ))
     ).toMatchInlineSnapshot(
-      '"var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};"'
+      '"var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};"'
     );
   });
   test("renderCodeSnippetTemplate", () => {
@@ -89,9 +89,9 @@ describe("template", () => {
       renderCodeSnippetTemplate(createSnippet, appendSnippet, attributeSnippet)
     ).toMatchInlineSnapshot(`
       "
-        var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
+        var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
         node.$0.append(node.$1);
-        effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\"});});"
+        effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\"});});"
     `);
   });
   test("setupSnippetTemplate", () => {
@@ -114,9 +114,9 @@ describe("template", () => {
         
 
           
-          var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
+          var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
           node.$0.append(node.$1);
-          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\"});});
+          effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\"});});
       }"
     `);
   });
@@ -134,14 +134,19 @@ describe("template", () => {
       "import { effect,unref } from \\"@vue/reactivity\\";
       import {ref} from '@vue/reactivity'
 
+      const sa = (e, key, value)=>e.setAttribute(key, value)
+      const ae = (e, key, value)=>e.addEventListener(key, value)
+      const ce = document.createElement.bind(document)
+
+      const ct = document.createTextNode.bind(document)
       export default function (props,context){
           const count = ref(0);
         
 
           
-          var node = {$1: document.createElement(\\"div\\"),$2: document.createElement(\\"span\\")};
+          var node = {$1: ce(\\"div\\"),$2: ce(\\"span\\")};
           node.$0.append(node.$1);
-          effect(()=>{node.$1.setAttribute(\\"class\\",\\"class-name\\"});});
+          effect(()=>{sa(node.$1,\\"class\\",\\"class-name\\"});});
       }"
     `);
   });
