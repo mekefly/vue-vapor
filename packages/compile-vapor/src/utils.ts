@@ -27,3 +27,17 @@ export function spaceDisplay(str: string, invalid: boolean = false) {
   if (invalid) return;
   return str.replaceAll(" ", "_");
 }
+
+export function ignoreEndWithEnter(text: string) {
+  return text.endsWith("\n") ? text.slice(0, -1) : text;
+}
+export function ignoreStartWithEnter(text: string) {
+  return text.startsWith("\n") ? text.slice(1) : text;
+}
+export function filterNoUndefined<A extends Array<any>>(
+  arr: A
+): A extends Array<infer P> ? (P extends undefined ? never : Array<P>) : never {
+  return arr.filter((e) => e !== undefined) as any;
+}
+
+type xxx = "333" & "222";
