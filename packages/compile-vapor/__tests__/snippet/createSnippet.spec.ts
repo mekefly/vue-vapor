@@ -116,13 +116,10 @@ describe("createAstList", () => {
     expect(sfc).toMatchInlineSnapshot(`
       {
         "importSnippets": [
-          "import { ref } from \\"@vue/reactivity\\";
-      ",
-          "import Index from \\"./index.vue\\";
-      ",
+          "import { ref } from \\"@vue/reactivity\\";",
+          "import Index from \\"./index.vue\\";",
         ],
-        "script": "
-      const count = ref(0);
+        "script": "const count = ref(0);
       console.log(Index);
 
       function handle() {

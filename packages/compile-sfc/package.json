@@ -7,8 +7,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vue-vapor/compile-core": "workspace:*",
-    "mlly": "^0.5.14"
+    "@vue-vapor/compile-core": "workspace:*"
   },
   "main": "dist/vue-vapor-compile-sfc.cjs.prod.js",
   "module": "dist/vue-vapor-compile-sfc.esm.prod.js",

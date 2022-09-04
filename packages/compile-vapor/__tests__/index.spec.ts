@@ -7,13 +7,10 @@ describe("index", () => {
     expect(sfc).toMatchInlineSnapshot(`
       {
         "importSnippets": [
-          "import { ref } from \\"@vue/reactivity\\";
-      ",
-          "import Index from \\"./index.vue\\";
-      ",
+          "import { ref } from \\"@vue/reactivity\\";",
+          "import Index from \\"./index.vue\\";",
         ],
-        "script": "
-      const count = ref(0);
+        "script": "const count = ref(0);
       console.log(Index);
 
       function handle() {
@@ -130,7 +127,6 @@ describe("index", () => {
     expect(code).toMatchInlineSnapshot(`
       "import { effect,unref } from \\"@vue/reactivity\\";
       import { ref } from \\"@vue/reactivity\\";
-
       import Index from \\"./index.vue\\";
 
       const sa = (e, key, value)=>e.setAttribute(key, value);
@@ -152,7 +148,6 @@ describe("index", () => {
         return instance;
       };
       export default function (props,__context){
-        
         const count = ref(0);
         console.log(Index);
         

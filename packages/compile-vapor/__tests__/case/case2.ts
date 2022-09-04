@@ -1,6 +1,5 @@
 import { effect,unref } from "@vue/reactivity";
 import { ref } from "@vue/reactivity";
-
 import Index from "./index.vue";
 
 const sa = (e, key, value)=>e.setAttribute(key, value);
@@ -22,7 +21,6 @@ const cc = (Component, parentEl) => {
   return instance;
 };
 export default function (props,__context){
-  
   const count = ref(0);
   console.log(Index);
   

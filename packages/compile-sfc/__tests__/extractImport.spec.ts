@@ -1,20 +1,46 @@
-import { extractImport, findInput } from "../src/extractImport";
+import { extractImport, findTheImportBoundary } from "../src/extractImport";
+function createSpace(num: number) {
+  return "".padEnd(num, " ");
+}
+describe("findTheImportBoundary", () => {
+  test(`import {xxx} from '333'`, ({ meta: { name } }) => {
+    expect(name.length).toMatchInlineSnapshot("23");
 
+    expect(findTheImportBoundary(name)).toMatchInlineSnapshot(`
+      [
+        0,
+        23,
+        23,
+      ]
+    `);
+  });
+});
 describe("extractImport", () => {
   let index = 0;
-  test("extractImport" + index++, () => {
+  test("extractImport1" + index++, () => {
     const case1 = `
-import {xxx} from "333"
-console.log("")
+import {xxx} from '111';
+import {xxx} from '111';
+import {xxx} from '111';
+
+console.log("333")
+const xxx = import("ddd")
+import {xxx} from '111';
+const xxx = "import {xxx} from '111';"
 `;
+
     expect(extractImport(case1)).toMatchInlineSnapshot(`
       {
         "importSnippets": [
-          "import {xxx} from \\"333\\"
-      ",
+          "import {xxx} from '111';",
+          "import {xxx} from '111';",
+          "import {xxx} from '111';",
+          "import {xxx} from '111';",
         ],
-        "script": "
-      console.log(\\"\\")
+        "script": "console.log(\\"333\\")
+      const xxx = import(\\"ddd\\")
+
+      const xxx = \\"import {xxx} from '111';\\"
       ",
       }
     `);
@@ -22,39 +48,16 @@ console.log("")
   test("extractImport" + index++, () => {
     const case1 = `
   import {xxx} from "333"
-
-  import {xxx} from "2"
-
-  console.log("333")
-
-  import {xxx} from "3"
-  const xxx = 3;
-  console.log("333")
-  const xxx = 3;
-  console.log("333")
-  console.log("333")
+  import {xxx} from "333"
   `;
     expect(extractImport(case1)).toMatchInlineSnapshot(`
       {
         "importSnippets": [
+          "import {xxx} from \\"333\\"",
           "import {xxx} from \\"333\\"
-
-        ",
-          "import {xxx} from \\"2\\"
-
-        ",
-          "import {xxx} from \\"3\\"
         ",
         ],
-        "script": "
-        console.log(\\"333\\")
-
-        const xxx = 3;
-        console.log(\\"333\\")
-        const xxx = 3;
-        console.log(\\"333\\")
-        console.log(\\"333\\")
-        ",
+        "script": "",
       }
     `);
   });
@@ -72,11 +75,9 @@ console.log("")
           "import {xxx,
           yyy,
           zzz
-        } from \\"@xyz/xx\\"
-        ",
+        } from \\"@xyz/xx\\"",
         ],
-        "script": "
-        console.log(\\"333\\")
+        "script": "console.log(\\"333\\")
         ",
       }
     `);
@@ -96,12 +97,9 @@ console.log("")
           "import {xxx,
           yyy,
           zzz
-        } from \\"@xyz/xx\\";
-
-        ",
+        } from \\"@xyz/xx\\";",
         ],
-        "script": "
-        console.log(\\"333\\");
+        "script": "console.log(\\"333\\");
         ",
       }
     `);
@@ -122,12 +120,9 @@ console.log("333");
           "import {xxx,
         yyy,
         zzz
-      } from \\"@xyz/xx\\";
-
-      ",
+      } from \\"@xyz/xx\\";",
         ],
-        "script": "
-      console.log(\\"333\\");
+        "script": "console.log(\\"333\\");
       console.log(\\"333\\");
         ",
       }
@@ -135,33 +130,22 @@ console.log("333");
   });
   test("extractImport" + index++, () => {
     const case1 = `
-import {xxx,
-  yyy,
-  zzz
-} from "@xyz/xx";
+function (){
+  import {} from ""
 
-console.log("333");
-console.log("333");
+}
   `;
-    expect(findInput(case1)).toMatchInlineSnapshot(`
-      [
-        {
-          "code": "import {xxx,
-        yyy,
-        zzz
-      } from \\"@xyz/xx\\";
+    expect(extractImport(case1)).toMatchInlineSnapshot(`
+      {
+        "importSnippets": [
+          "import {} from \\"\\"",
+        ],
+        "script": "function (){
+        
 
-      ",
-          "end": 46,
-          "imports": "{xxx,
-        yyy,
-        zzz
-      } ",
-          "specifier": "@xyz/xx",
-          "start": 1,
-          "type": "static",
-        },
-      ]
+      }
+        ",
+      }
     `);
   });
 });

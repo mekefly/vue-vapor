@@ -73,7 +73,21 @@
       const { codegen } = VueVaporCompileVapor;
       const { createApp, h, ref, computed, defineComponent, effect, unref } =
         Vue;
+      const cc = (Component, parentEl) => {
+        const instance = {
+          Component,
+          props: {},
+          el: [],
+          parentEl,
+          emit(type, value) {
+            this.props[`@${type}`]?.(value);
+          },
+        };
+        Component(instance.props, instance);
+        return instance;
+      };
 
+      const app = document.querySelector("#app");
       const editDom = document.querySelector(".edit");
       const jsDom = document.querySelector(".js");
       async function init(params) {
@@ -96,7 +110,7 @@
       }
 
       function update() {
-        document.querySelector("#app").innerHTML = "";
+        app.innerHTML = "";
 
         const code = editDom.value;
         const ast = parser(code);
@@ -107,7 +121,7 @@
         jsDom.value = script;
         eval(script);
 
-        App({}, { parentEl: document.querySelector("#app") });
+        cc(App, app);
       }
 
       function deleteExport(code) {
