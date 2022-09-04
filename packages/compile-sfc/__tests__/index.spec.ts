@@ -13,10 +13,7 @@ describe("compileSFC", () => {
       {
         "importSnippets": [],
         "script": "
-       
       console.log(\\"333\\");
-
-      ;
       ",
         "setup": true,
         "style": "",

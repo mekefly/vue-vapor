@@ -1,77 +1,27 @@
-let waitingForEnd = false;
-let importCell: string[] = [];
-let counters: Record<string, number> = {};
-let importSnippets: string[] = [];
+import { findStaticImports } from "mlly";
+export function findInput(script: string) {
+  return findStaticImports(script);
+}
 
 export function extractImport(script: string) {
-  script = splitMatch(script, ";", true, (s) => {
-    return splitMatch(s, "\n", true, (s) => splitMatch(s, " ", true, callback));
-  })
-    .replaceAll("\n;", ";")
-    .replaceAll(" ;", ";")
-    .replaceAll(";", ";\n")
-    .replaceAll(";\n\n", ";\n");
+  const importSnippets: string[] = [];
+  const scripts: string[] = [];
+  let local: number[] = [];
 
-  init();
-  let _importSnippets: string[];
-  [_importSnippets, importSnippets] = [importSnippets, []];
+  findInput(script).forEach((s) => {
+    local.push(s.start, s.end);
+  });
+  local.push(script.length);
 
-  return { script, importSnippets: _importSnippets };
-}
+  let last = 0;
+  local.forEach((local, index) => {
+    if (index % 2 === 0) {
+      scripts.push(script.slice(last, local));
+    } else {
+      importSnippets.push(script.slice(last, local));
+    }
+    last = local;
+  });
 
-function splitMatch(
-  s: string,
-  splitter: string,
-  isFilter: boolean,
-  callback: (s: string) => string
-): string {
-  let v = s.split(splitter).map(callback);
-  if (isFilter) {
-    v = v.filter(Boolean);
-  }
-  return v.map((s) => s + splitter).join("");
-}
-
-const callback = (s: string) => {
-  if (waitingForEnd) {
-    importCell.push(s);
-    count('"', s);
-    count("'", s);
-    return "";
-  } else if (s.trim().startsWith("import")) {
-    init();
-    waitingForEnd = true;
-
-    importCell.push(s);
-    return "";
-  }
-
-  return s;
-};
-
-function commit() {
-  importSnippets.push(
-    importCell
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .join(" ")
-  );
-
-  init();
-}
-function init() {
-  importCell = [];
-  counters = {};
-  waitingForEnd = false;
-}
-
-function count(k: string, s: string) {
-  s.trim().endsWith(k) && add(k);
-  s.trim().startsWith(k) && add(k);
-  if (counters[k] && counters[k] >= 2) {
-    commit();
-  }
-}
-function add(k: string) {
-  counters[k] = (counters[k] ?? 0) + 1;
+  return { script: scripts.join(""), importSnippets };
 }
