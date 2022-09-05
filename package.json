@@ -17,14 +17,16 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "node scripts/build",
+    "script": "node scripts",
+    "build": "pnpm script build $",
     "build:all": "pnpm build:dev && pnpm build:prod",
-    "build:prod": "node scripts/build --prod 'true'",
-    "build:dev": "node scripts/build --prod 'false'",
+    "build:prod": "pnpm build --prod 'true'",
+    "build:dev": "pnpm build --prod 'false'",
     "pub": "npm publish",
     "test": "vitest",
-    "dev": "node scripts/dev",
-    "build:reBuildScript": "pnpm build --rebuildScript"
+    "dev": "pnpm script dev",
+    "script:reBuild": "pnpm script --rebuild",
+    "build:reBuildScripts": "pnpm script --rebuild build $"
   },
   "dependencies": {
     "@babel/core": "^7.18.10"

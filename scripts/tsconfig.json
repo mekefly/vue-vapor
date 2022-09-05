@@ -4,7 +4,7 @@
     "rootDir": ".",
     "outDir": "../dist/scripts",
     "sourceMap": true,
-    "target": "ES2015",
+    "target": "esnext",
     "module": "CommonJS",
     "moduleResolution": "node",
     "allowJs": true,

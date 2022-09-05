@@ -2,3 +2,4 @@
 dist
 node_modules
 examples
+scripts\temp.tsconfig.json
