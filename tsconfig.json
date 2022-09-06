@@ -29,6 +29,7 @@
     "packages/global.d.ts",
     "packages/*/src",
     "packages/*/__tests__",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "scripts/**/*.ts"
   ]
 }

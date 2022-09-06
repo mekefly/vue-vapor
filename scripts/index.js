@@ -23,7 +23,9 @@ const BASE_PATH = __dirname;
 const DIST_BASE_PATH = resolve("dist", relativePath(BASE_PATH));
 const possibleName = ["main.js"];
 
+const TS_CONFIG_NAME = `tsconfig.json`;
 const TS_CONFIG_PATH = `./tsconfig.json`;
+const TEMP_TS_CONFIG_NAME = `temp.${TS_CONFIG_NAME}`;
 const TEMP_TS_CONFIG_PATH = resolve(
   BASE_PATH,
   dirname(TS_CONFIG_PATH),
@@ -77,18 +79,20 @@ function findScriptPath(scriptPath) {
 }
 
 function buildScript(buildPath) {
-  writeConfig(buildPath);
+  const tsConfigPath = findTsConfig(buildPath);
+  const termTsConfigPath = resolve(dirname(tsConfigPath), TEMP_TS_CONFIG_NAME);
+  writeTermTsConfig(buildPath, tsConfigPath, termTsConfigPath);
 
-  let c = `npx tsc -p ${relativePath(TEMP_TS_CONFIG_PATH)}`;
+  let c = `npx tsc -p ${TEMP_TS_CONFIG_PATH}`;
   console.log(`buildScript: ${c}`);
   exec(c);
 }
-function writeConfig(buildPath) {
-  const include =
-    JSON.parse(readFileSync(resolve(BASE_PATH, TS_CONFIG_PATH), "utf-8"))
-      ?.include ?? [];
+function writeTermTsConfig(buildPath, tsConfigPath, termTsConfigPath) {
+  const tsConfig = readTsConfig(tsConfigPath);
+  const include = tsConfig?.include ?? [];
+
   const jsonConfigContent = JSON.stringify({
-    extends: TS_CONFIG_PATH,
+    extends: tsConfigPath,
     include:
       include.length === 0
         ? [relative(BASE_PATH, buildPath)]
@@ -99,15 +103,26 @@ function writeConfig(buildPath) {
 
   writeFileSync(TEMP_TS_CONFIG_PATH, jsonConfigContent);
 }
+function readTsConfig(tsConfigPath) {
+  const configString = readFileSync(tsConfigPath, "utf-8");
+  const config = JSON.parse(configString);
+  if (config.extends) {
+    Object.setPrototypeOf(
+      config,
+      readTsConfig(resolve(dirname(tsConfigPath), config.extends))
+    );
+  }
+  return config;
+}
 
 function findTsConfig(path) {
   let p = path;
   while (p.length > __dirname.length) {
-    p = resolve(p, "../");
     const tsConfigPath = resolve(p, TS_CONFIG_PATH);
     if (existsSync(tsConfigPath)) {
       return tsConfigPath;
     }
+    p = resolve(p, "../");
   }
 
   console.error(

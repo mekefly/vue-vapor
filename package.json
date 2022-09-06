@@ -1,5 +1,6 @@
 {
   "shortName": "vue-vapor",
+  "workspacesName": "vue-vapor",
   "version": "0.0.0-bate.0",
   "buildOptions": {
     "disableBuild": true
