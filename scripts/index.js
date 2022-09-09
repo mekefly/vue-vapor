@@ -117,7 +117,7 @@ function readTsConfig(tsConfigPath) {
 
 function findTsConfig(path) {
   let p = path;
-  while (p.length > __dirname.length) {
+  while (p.length >= __dirname.length) {
     const tsConfigPath = resolve(p, TS_CONFIG_PATH);
     if (existsSync(tsConfigPath)) {
       return tsConfigPath;
@@ -146,7 +146,7 @@ function getArgvOptions(argv) {
 function help() {
   console.log("你可以在$后面跟随子命令，例如：");
   console.log(
-    "node scripts build $ xxx => npx tsc -p scripts/**/tsconfig.json && node scripts/build xxx"
+    "node scripts build $ xxx => npx tsc -p scripts/temp.tsconfig.json && node scripts/build xxx"
   );
 
   let commends = readdirSync(BASE_PATH);

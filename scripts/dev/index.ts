@@ -4,7 +4,7 @@ const { resolve } = require("path");
 
 build();
 
-function build(params) {
+function build() {
   let c = `pnpm build --watch --prod false --format iife ${process.argv
     .splice(2)
     .join(" ")}`;

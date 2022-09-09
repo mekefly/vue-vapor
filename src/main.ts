@@ -16,11 +16,11 @@ function throttle(callback) {
 }
 
 function update() {
-  const appDom = (document.querySelector("#app");
-  if(!appDom){
-    return
+  const appDom = document.querySelector("#app");
+  if (!appDom) {
+    return;
   }
-  appDom.innerHTML = "");
+  appDom.innerHTML = "";
 
   const code = editDom.value;
   const ast = parser(code);
@@ -30,7 +30,7 @@ function update() {
   const script = deleteExport(extractImportValue.script);
   eval(script);
 
-  (App as any)({}, { parentEl:appDom });
+  (App as any)({}, { parentEl: appDom });
 }
 
 function deleteExport(code) {
