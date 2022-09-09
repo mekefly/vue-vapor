@@ -18,7 +18,7 @@ export { extractImport };
 // }
 export function compileSFCByText(text: string) {
   const ast = parser(text);
-  compileSFC(ast);
+  return compileSFC(ast);
 }
 export type SFC = {
   template: HTMLElementAst;
