@@ -1,7 +1,7 @@
 import { DEFAULT_HANDEL_OPTIONS, HandelOptions } from "./buildHandel";
 import { BuildOptions, mixinAndFilterBuildOptions } from "./buildOptions";
 import { createCommendList } from "./createCommendList";
-import { PackageJson, readPackageJson } from "./json";
+import { PackageJson, PackageJsonBuildOptions, readPackageJson } from "./json";
 import { CliOptions, Commend } from "./types";
 
 import { createOptions } from "./buildOptions";
@@ -41,14 +41,24 @@ function createPackageCommendList(
 ) {
   //读取json文件
   const packageJson = readPackageJson(packagePath);
+
+  const packageBuildOptions: PackageJsonBuildOptions =
+    packageJson?.buildOptions ?? {};
+
+  let _buildOptions = Object.assign(
+    {},
+    mixinAndFilterBuildOptions(packageBuildOptions, configOptions),
+    packageBuildOptions?.importantOptions ?? {}
+  );
+
   //检查是否在packageJSON中是否强制禁止build
-  if (disableBuild(packageJson)) {
+  if (packageBuildOptions.disableBuild) {
     return [];
   }
 
   //创建命令列表
   const commendList = createCommendList(
-    configOptions,
+    _buildOptions,
     packageJson,
     packagePath
   );

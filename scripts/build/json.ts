@@ -1,13 +1,12 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { BuildOptions } from "./buildOptions";
 
 export function readPackageJson(packagePath: string): PackageJson {
   return readJson(resolve(packagePath, "./package.json"));
 }
 export function readJson(path: string): any {
   try {
-    console.log(path);
-
     return JSON.parse(readFileSync(path, "utf-8"));
   } catch (error) {
     return {};
@@ -17,6 +16,9 @@ export function readJson(path: string): any {
 export type PackageJson = {
   name?: string;
   shortName?: string;
-  buildOptions?: BuildOptions;
+  buildOptions?: PackageJsonBuildOptions;
 };
-export type BuildOptions = { disableBuild: boolean };
+export type PackageJsonBuildOptions = Partial<BuildOptions> & {
+  disableBuild?: boolean;
+  importantOptions?: BuildOptions;
+};
