@@ -15,6 +15,7 @@ export const DEFAULT_BUILD_OPTIONS = {
   prod: ["false", "true"],
   declaration: true,
   watch: false,
+  disableConcurrent: false,
 };
 export type BuildOptions = typeof DEFAULT_BUILD_OPTIONS;
 
@@ -73,4 +74,26 @@ export function parseCliOptions(
     }
   });
   return options as any;
+}
+
+export function mixinAndFilterBuildOptions(o1: any, o2: any) {
+  const newOptions: any = {};
+  Object.entries(o2).forEach(([k2, ov2]) => {
+    const ov1 = o1[k2];
+    if (!ov1) {
+      newOptions[k2] = ov2;
+      return;
+    }
+    if (Array.isArray(ov2)) {
+      if (Array.isArray(ov1)) {
+        newOptions[k2] = ov2.filter((v) => ov1.includes(v));
+      } else {
+        throw new Error(`BuildOptions中的${k2},必须是数组类型`);
+      }
+    } else {
+      newOptions[k2] = ov1;
+    }
+  });
+
+  return newOptions;
 }

@@ -1,5 +1,5 @@
 import { DEFAULT_HANDEL_OPTIONS, HandelOptions } from "./buildHandel";
-import { BuildOptions } from "./buildOptions";
+import { BuildOptions, mixinAndFilterBuildOptions } from "./buildOptions";
 import { createCommendList } from "./createCommendList";
 import { PackageJson, readPackageJson } from "./json";
 import { CliOptions, Commend } from "./types";
@@ -24,7 +24,7 @@ export async function buildPackages(
     const commendList = createPackageCommendList(packagePath, configOptions);
     allCommendList.push(...commendList);
   }
-  const { watch } = configOptions;
+  const { watch, disableConcurrent } = configOptions;
 
   if (watch) {
     handelOptions.addCommend("--watch");
@@ -32,7 +32,7 @@ export async function buildPackages(
   }
 
   //执行rollup命令
-  await handelOptions.runs(allCommendList);
+  await handelOptions.runs(allCommendList, disableConcurrent);
 }
 
 function createPackageCommendList(

@@ -12,33 +12,44 @@ class DefaultHandelOptions {
   public queue = new Queue();
 
   mixinCommend: string[] = [];
-  $(environment: Commend, index: number, CommendList: Commend[]) {
-    this.queue.runParallel(async () => {
-      console.log(
-        pc.bgBlue(
-          pc.white(
-            `\n当前是第 ${index + 1} 条共 ${CommendList.length} 条，准备执行`
-          )
+  async $(environment: Commend, index: number, CommendList: Commend[]) {
+    console.log(
+      pc.bgBlue(
+        pc.white(
+          `\n当前是第 ${index + 1} 条共 ${CommendList.length} 条，准备执行`
         )
-      );
-      const commendString =
-        DEFAULT_HANDEL_OPTIONS.genBuildStringCommend(environment);
+      )
+    );
+    const commendString =
+      DEFAULT_HANDEL_OPTIONS.genBuildStringCommend(environment);
 
-      await new Promise<void>((resolve, reject) => {
-        exec(commendString, () => {
-          resolve();
-        });
+    await new Promise<void>((resolve, reject) => {
+      exec(commendString, () => {
+        resolve();
       });
     });
   }
-  async runs(commendList: string[][]) {
+  async runs(commendList: string[][], disableConcurrent: boolean) {
     DEFAULT_HANDEL_OPTIONS.commandPreview(commendList);
 
-    commendList.forEach((...rest) => this.$(...rest));
-
-    console.log("任物已提交-------------------------------------------------");
-    await this.queue.allCompletePromise;
-    console.log("任物已完成-------------------------------------------------");
+    if (disableConcurrent) {
+      for (let index = 0; index < commendList.length; index++) {
+        await this.$(commendList[index], index, commendList);
+      }
+    } else {
+      for (let index = 0; index < commendList.length; index++) {
+        this.queue.runParallel(async () => {
+          await this.$(commendList[index], index, commendList);
+        });
+      }
+      console.log(
+        "任物已提交-------------------------------------------------"
+      );
+      await this.queue.allCompletePromise;
+      console.log(
+        "任物已完成-------------------------------------------------"
+      );
+    }
   }
   genBuildStringCommend(environment: string[]) {
     let commendString = clash.get(environment);
