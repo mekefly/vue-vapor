@@ -7,10 +7,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vue-vapor/compile-core": "workspace:*"
+    "@vue-vapor/compile-core": "workspace:*",
+    "@vue-vapor/compile-vapor": "workspace:*"
   },
-  "main": "dist/vue-vapor-compile-sfc.cjs.prod.js",
-  "module": "dist/vue-vapor-compile-sfc.esm.prod.js",
-  "unpkg": "dist/vue-vapor-compile-sfc.iife.prod.js",
-  "jsdelivr": "dist/vue-vapor-compile-sfc.iife.prod.js"
+  "unpkg": "dist/vue-vapor-compile-sfc.iife.js",
+  "jsdelivr": "dist/vue-vapor-compile-sfc.iife.js",
+  "module": "dist/vue-vapor-compile-sfc.esm.js",
+  "main": "dist/vue-vapor-compile-sfc.cjs.js"
 }

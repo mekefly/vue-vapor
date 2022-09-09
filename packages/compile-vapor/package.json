@@ -10,8 +10,8 @@
     "@vue-vapor/compile-core": "workspace:*",
     "@vue-vapor/compile-sfc": "workspace:*"
   },
-  "main": "dist/vue-vapor-compile-sfc.cjs.prod.js",
-  "module": "dist/vue-vapor-compile-sfc.esm.prod.js",
-  "unpkg": "dist/vue-vapor-compile-sfc.iife.prod.js",
-  "jsdelivr": "dist/vue-vapor-compile-sfc.iife.prod.js"
+  "unpkg": "dist/vue-vapor-compile-vapor.iife.js",
+  "jsdelivr": "dist/vue-vapor-compile-vapor.iife.js",
+  "module": "dist/vue-vapor-compile-vapor.esm.js",
+  "main": "dist/vue-vapor-compile-vapor.cjs.js"
 }
