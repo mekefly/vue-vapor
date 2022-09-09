@@ -1,0 +1,27 @@
+{
+  "name": "@vue-vapor/vite-plugin-vue-vapor",
+  "version": "0.0.0-bate.0",
+  "description": "",
+  "buildOptions": {
+    "prod": [
+      "false"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ]
+  },
+  "types": "dist/types/index.d.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vue-vapor/compile-sfc": "workspace:*",
+    "@vue-vapor/compile-core": "workspace:*",
+    "@vue-vapor/compile-vapor": "workspace:*",
+    "vite": "^3.0.8"
+  },
+  "module": "dist/vue-vapor-vite-plugin-vue-vapor.esm.js",
+  "main": "dist/vue-vapor-vite-plugin-vue-vapor.cjs.js"
+}
