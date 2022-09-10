@@ -131,23 +131,44 @@ function findTsConfig(path) {
   );
   exit(-2);
 }
-
+/**
+ * @param {string[]} argv
+ * @return {*}
+ */
 function getArgvOptions(argv) {
   let index = argv.indexOf("$", 2);
-  index = index === -1 ? argv.length : index;
 
-  const scriptsArgv = argv.slice(2, index);
+  if (index === -1) {
+    const scriptsOptions = minimist(argv, { boolean: ["reBuild"] });
+    const scriptsCommend = argv.find(
+      (item, index) => index >= 2 && !item.startsWith("-")
+    );
+    index = argv.indexOf(scriptsCommend, 2);
+    if (index === -1) {
+      console.log("不该出现的情况");
+      exit(1);
+    }
+  }
+
+  let scriptsArgv = argv.slice(2, index + 1);
+  scriptsArgv =
+    scriptsArgv[scriptsArgv.length - 1] === "$"
+      ? scriptsArgv.slice(0, -1)
+      : scriptsArgv;
+
   const commendArgv = argv.slice(index + 1, argv.length);
 
-  const scriptsOptions = minimist(scriptsArgv);
+  const scriptsOptions = minimist(scriptsArgv, { boolean: ["reBuild"] });
   return { scriptsArgv: scriptsOptions._, commendArgv, scriptsOptions };
 }
 
 function help() {
   console.log("你可以在$后面跟随子命令，例如：");
   console.log(
-    "node scripts build $ xxx => npx tsc -p scripts/temp.tsconfig.json && node scripts/build xxx"
+    "node scripts build $ --prod true => npx tsc -p scripts/temp.tsconfig.json && node scripts/build --prod true"
   );
+  console.log("你可以输入简写命令：");
+  console.log("node scripts build --prod true");
 
   let commends = readdirSync(BASE_PATH);
   commends = commends.filter(
